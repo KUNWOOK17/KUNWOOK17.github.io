@@ -261,7 +261,7 @@ const achievementSection = {
       footerLink: [
         {
           name: "View Project",
-          url: "https://github.com/KUNWOOK17/DoosanRoboticsProject4"
+          url: "https://kunwook17.github.io/blogthumbnail.github.io/2025/01/24/turtlebot_project.html"
         },
         {
           name: "View Video",
