@@ -40,16 +40,55 @@
 //   );
 // }
 
+// import React, {useEffect, useState} from "react";
+// import DOMPurify from "dompurify";
+// import {marked} from "marked";
+// import LiquidInjectionMd from "./liquid_injection.md"; // 마크다운 파일 import
+
+// export default function Project1() {
+//   const [content, setContent] = useState("Loading...");
+
+//   useEffect(() => {
+//     fetch(LiquidInjectionMd) // import한 파일을 fetch 함수의 경로로 사용
+//       .then(r => {
+//         if (!r.ok) throw new Error("md load fail");
+//         return r.text();
+//       })
+//       .then(md => {
+//         const html = marked.parse(md, {mangle: false, headerIds: true});
+//         setContent(DOMPurify.sanitize(html));
+//       })
+//       .catch(e => {
+//         setContent("Failed to load content.");
+//         console.error(e);
+//       });
+//   }, []);
+
+//   return (
+//     <div
+//       style={{
+//         maxWidth: "980px",
+//         margin: "40px auto",
+//         padding: "0 16px",
+//         lineHeight: 1.6
+//       }}
+//     >
+//       <h1>Liquid Injection Project</h1>
+//       <div dangerouslySetInnerHTML={{__html: content}} />
+//     </div>
+//   );
+// }
+
 import React, {useEffect, useState} from "react";
 import DOMPurify from "dompurify";
 import {marked} from "marked";
-import LiquidInjectionMd from "./liquid_injection.md"; // 마크다운 파일 import
 
 export default function Project1() {
   const [content, setContent] = useState("Loading...");
 
   useEffect(() => {
-    fetch(LiquidInjectionMd) // import한 파일을 fetch 함수의 경로로 사용
+    // public 폴더를 기준으로 경로를 설정합니다.
+    fetch("/projects/liquid_injection.md")
       .then(r => {
         if (!r.ok) throw new Error("md load fail");
         return r.text();

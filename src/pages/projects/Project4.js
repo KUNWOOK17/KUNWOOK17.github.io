@@ -50,17 +50,57 @@
 //   );
 // }
 
+// import React, {useEffect, useState} from "react";
+// import DOMPurify from "dompurify";
+// import {marked} from "marked";
+// import TurtlebotMd from "./turtlebot.md"; // turtlebot.md 파일을 import
+
+// export default function Project4() {
+//   const [content, setContent] = useState("Loading...");
+
+//   useEffect(() => {
+//     // import한 변수 TurtlebotMd를 fetch 함수의 경로로 사용
+//     // fetch(TurtlebotMd)
+//     fetch('/home/kunwookpark/kunwook17/src/pages/projects/turtlebot.md')
+//       .then(r => {
+//         if (!r.ok) throw new Error("md load fail");
+//         return r.text();
+//       })
+//       .then(md => {
+//         const html = marked.parse(md, {mangle: false, headerIds: true});
+//         setContent(DOMPurify.sanitize(html));
+//       })
+//       .catch(e => {
+//         setContent("Failed to load content.");
+//         console.error(e);
+//       });
+//   }, []);
+
+//   return (
+//     <div
+//       style={{
+//         maxWidth: "980px",
+//         margin: "40px auto",
+//         padding: "0 16px",
+//         lineHeight: 1.6
+//       }}
+//     >
+//       <h1>TurtleBot Project</h1>
+//       <div dangerouslySetInnerHTML={{__html: content}} />
+//     </div>
+//   );
+// }
+
 import React, {useEffect, useState} from "react";
 import DOMPurify from "dompurify";
 import {marked} from "marked";
-import TurtlebotMd from "./turtlebot.md"; // turtlebot.md 파일을 import
 
 export default function Project4() {
   const [content, setContent] = useState("Loading...");
 
   useEffect(() => {
-    // import한 변수 TurtlebotMd를 fetch 함수의 경로로 사용
-    fetch(TurtlebotMd)
+    // public 폴더를 기준으로 경로를 설정합니다.
+    fetch("/projects/turtlebot.md")
       .then(r => {
         if (!r.ok) throw new Error("md load fail");
         return r.text();
