@@ -18,21 +18,25 @@
 <body>
   <h1>RobotArm Project</h1>
   <div id="content">Loading...</div>
+
   <script>
     (async () => {
-      // ✅ 깃헙 페이지에서도 깨지지 않도록 루트 기준 절대경로 사용
-      const mdUrl = "/projects/liquid_injection/liquid_injection.md";
+      // ✅ 로컬/배포 경로 자동 분기
+      const isLocal = ["localhost", "127.0.0.1"].includes(window.location.hostname);
+      const base = isLocal ? "." : "/projects/liquid_injection";
+      const mdUrl = `${base}/liquid_injection.md`;
 
-      // 캐시가 강하게 남는 경우를 대비해 쿼리스트링 추가 (필요 없으면 제거해도 됨)
-      const bust = `?v=${Date.now()}`;
+      // 캐시가 남을 때를 대비한 옵션(원치 않으면 bust 제거)
+      const bust = isLocal ? "" : `?v=${Date.now()}`;
 
       try {
         const res = await fetch(mdUrl + bust, { cache: "no-cache" });
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        if (!res.ok) throw new Error(`HTTP ${res.status} @ ${mdUrl}`);
         const md = await res.text();
 
-        // 마크다운 → HTML 변환 + XSS 방지
-        const html = DOMPurify.sanitize(marked.parse(md, { mangle: false, headerIds: true }));
+        const html = DOMPurify.sanitize(
+          marked.parse(md, { mangle: false, headerIds: true })
+        );
         document.getElementById("content").innerHTML = html;
       } catch (e) {
         console.error(e);
