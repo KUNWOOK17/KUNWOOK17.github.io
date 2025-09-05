@@ -229,7 +229,7 @@ const bigProjects = {
       footerLink: [
         {
           name: "View Details",
-          url: "/projects/liquid_injection"
+          url: "/projects/liquid_injection/"
         }
       ]
 
@@ -242,8 +242,8 @@ const bigProjects = {
         "Development of an autonomous navigation robot system based on SLAM",
       footerLink: [
         {
-          name: "Visit Website",
-          url: "/projects/turtlebot"
+          name: "Visit Details",
+          url: "/projects/turtlebot/"
         }
         //  you can add extra buttons here.
       ]
