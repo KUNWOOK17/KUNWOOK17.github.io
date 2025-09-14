@@ -1,11 +1,11 @@
 /* src/pages/projects/Project4.scss */
 .proj4 {
-  --bg: rgba(255,255,255,0.06);
-  --stroke: rgba(255,255,255,0.12);
+  --bg: rgba(255, 255, 255, 0.06);
+  --stroke: rgba(255, 255, 255, 0.12);
   --text: #e8e8e8;
   --text-dim: #b9c0c7;
-  --accent: #7c9cff;      /* 버튼/배지 포인트 컬러 */
-  --shadow: 0 10px 30px rgba(0,0,0,0.25);
+  --accent: #7c9cff; /* 버튼/배지 포인트 컬러 */
+  --shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
 
   max-width: 980px;
   margin: 40px auto;
@@ -16,7 +16,11 @@
 
 .proj4__hero {
   padding: 28px 22px;
-  background: linear-gradient(180deg, rgba(124,156,255,0.12), rgba(124,156,255,0.03));
+  background: linear-gradient(
+    180deg,
+    rgba(124, 156, 255, 0.12),
+    rgba(124, 156, 255, 0.03)
+  );
   border: 1px solid var(--stroke);
   border-radius: 20px;
   box-shadow: var(--shadow);
@@ -30,7 +34,7 @@
   background: var(--accent);
   color: #0b1020;
   font-weight: 700;
-  letter-spacing: .4px;
+  letter-spacing: 0.4px;
   margin-bottom: 10px;
 }
 
@@ -61,11 +65,11 @@
 // }
 
 .proj4__section {
-  margin: 40px 0;              /* 위아래 간격 */
-  padding: 0 0 20px 0;         /* 아래 여백만 살짝 */
+  margin: 40px 0; /* 위아래 간격 */
+  padding: 0 0 20px 0; /* 아래 여백만 살짝 */
   border-bottom: 2px solid var(--stroke); /* 가로 줄 */
-  border-radius: 0;            /* 둥근 모서리 제거 */
-  background: transparent;     /* 배경 없앰 */
+  border-radius: 0; /* 둥근 모서리 제거 */
+  background: transparent; /* 배경 없앰 */
 }
 
 .proj4__image {
@@ -74,7 +78,7 @@
   max-width: 100%;
   border-radius: 12px;
   border: 1px solid var(--stroke);
-  box-shadow: 0 6px 16px rgba(0,0,0,0.25);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
 }
 
 .proj4__h2 {
@@ -84,9 +88,9 @@
 }
 
 .proj4__card {
-//   padding: 16px;
-//   background: rgba(0,0,0,0.18);
-//   border: 1px dashed var(--stroke);
+  //   padding: 16px;
+  //   background: rgba(0,0,0,0.18);
+  //   border: 1px dashed var(--stroke);
   border-radius: 14px;
 }
 
@@ -107,7 +111,7 @@
   border: 1px solid var(--stroke);
   padding: 6px 10px;
   border-radius: 999px;
-  background: rgba(124,156,255,0.12);
+  background: rgba(124, 156, 255, 0.12);
   font-size: 12px;
 }
 
@@ -146,10 +150,12 @@
   font-weight: 700;
   text-decoration: none;
   border: 1px solid transparent;
-  transition: transform .08s ease, box-shadow .2s ease;
-  box-shadow: 0 6px 16px rgba(124,156,255,0.35);
+  transition: transform 0.08s ease, box-shadow 0.2s ease;
+  box-shadow: 0 6px 16px rgba(124, 156, 255, 0.35);
 }
-.btn:hover { transform: translateY(-1px); }
+.btn:hover {
+  transform: translateY(-1px);
+}
 
 .btn--ghost {
   background: transparent;
@@ -164,12 +170,12 @@
   background: #0b1020;
   border: 1px solid var(--stroke);
   border-radius: 14px;
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", "Courier New", monospace;
   font-size: 13px;
   overflow: auto;
   white-space: pre-wrap;
 }
-
 
 .proj4__table {
   width: 100%;
@@ -193,7 +199,7 @@
 }
 
 .proj4__table thead th {
-  background: rgba(255,255,255,0.08);
+  background: rgba(255, 255, 255, 0.08);
   font-weight: 700;
 }
 
@@ -212,7 +218,7 @@
 .proj4__divider {
   border: none;
   border-top: 2px solid var(--stroke); /* 굵기와 색상 통일 */
-  margin: 40px 0;                      /* 여백도 섹션과 맞추기 */
+  margin: 40px 0; /* 여백도 섹션과 맞추기 */
 }
 
 /* 소제목/리드 텍스트 */
@@ -233,11 +239,13 @@
   padding-left: 20px;
   line-height: 1.8;
 }
-.proj4__bullets li { margin: 4px 0; }
+.proj4__bullets li {
+  margin: 4px 0;
+}
 
 /* 성능표 하이라이트 행(선택) */
 .proj4__row--highlight {
-  background: rgba(124,156,255,0.08);
+  background: rgba(124, 156, 255, 0.08);
 }
 
 .proj4__table {
@@ -264,7 +272,6 @@
   background: rgba(255, 255, 255, 0.02);
 }
 
-
 .proj4__ol {
   margin: 8px 0 14px 20px;
   line-height: 1.8;
@@ -275,7 +282,9 @@
   padding-left: 20px;
   line-height: 1.8;
 }
-.proj4__bullets li { margin: 6px 0; }
+.proj4__bullets li {
+  margin: 6px 0;
+}
 
 .proj4__lead {
   margin: 16px 0 6px;
@@ -291,5 +300,5 @@
 .proj4__video iframe {
   max-width: 100%;
   border-radius: 8px;
-  box-shadow: 0 0 15px rgba(0,0,0,0.3);
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
 }

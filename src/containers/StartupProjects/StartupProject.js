@@ -270,7 +270,6 @@ export default function StartupProject({changePage}) {
   );
 }
 
-
 // // src/containers/StartupProjects/StartupProject.js
 // import React, {useContext} from "react";
 // import "./StartupProjects.scss";
