@@ -2,7 +2,16 @@
 <!doctype html>
 <html>
   <head>
-    <meta http-equiv="refresh" content="0; url=/" />
+    <meta charset="utf-8" />
+    <title>Redirecting…</title>
+    <script>
+      (function (l) {
+        // 현재의 경로/쿼리/해시를 모두 보존해서 index.html 로 전달
+        var redirect = l.pathname + l.search + l.hash;
+        // 사용자 페이지(루트 도메인)이므로 앞에 별도 repo 경로 필요 없음
+        l.replace('/?p=' + encodeURIComponent(redirect));
+      })(window.location);
+    </script>
   </head>
   <body></body>
 </html>
