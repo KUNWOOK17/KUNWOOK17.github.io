@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>TurtleBot Project</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <style>
+    body { max-width: 980px; margin: 40px auto; padding: 0 16px; line-height: 1.6; }
+    pre, code { white-space: pre-wrap; word-break: break-word; }
+    img { max-width: 100%; height: auto; }
+    table { border-collapse: collapse; width: 100%; }
+    th, td { border: 1px solid #ddd; padding: 6px 8px; }
+    h1, h2, h3 { margin-top: 28px; }
+  </style>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/dompurify@3.1.7/dist/purify.min.js"></script>
+</head>
+<body>
+  <h1>TurtleBot Project</h1>
+  <div id="content">Loading...</div>
+  <script>
+    fetch("./turtlebot.md")
+      .then(r => { if(!r.ok) throw new Error("md load fail"); return r.text(); })
+      .then(md => { document.getElementById("content").innerHTML = DOMPurify.sanitize(marked.parse(md,{mangle:false,headerIds:true})); })
+      .catch(e => { document.getElementById("content").textContent = "Failed to load content."; console.error(e); });
+  </script>
+</body>
+<!-- <body>
+  <h1>RobotArm Project</h1>
+  <div id="content">Loading...</div>
+  <script>
+    fetch("./liquid_injection.md")
+      .then(r => { if(!r.ok) throw new Error("md load fail"); return r.text(); })
+      .then(md => { document.getElementById("content").innerHTML = DOMPurify.sanitize(marked.parse(md,{mangle:false,headerIds:true})); })
+      .catch(e => { document.getElementById("content").textContent = "Failed to load content."; console.error(e); });
+  </script>
+</body> -->
+</html>
