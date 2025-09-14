@@ -1,17 +1,104 @@
-<!-- public/404.html -->
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>Redirecting…</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- SEO -->
+    <title>kunwookblog</title>
+    <meta name="title" content="kunwookblog" />
+    <meta
+      name="description"
+      content="Personal portfolio and blog showcasing projects, research, and development by Kunwook."
+    />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://kunwook17.github.io/" />
+    <meta property="og:title" content="kunwookblog" />
+    <meta
+      property="og:description"
+      content="Personal portfolio and blog showcasing projects, research, and development by Kunwook."
+    />
+    <!-- <meta property="og:image" content="https://kunwook17.github.io/og-image.png" /> -->
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://kunwook17.github.io/" />
+    <meta property="twitter:title" content="kunwookblog" />
+    <meta
+      property="twitter:description"
+      content="Personal portfolio and blog showcasing projects, research, and development by Kunwook."
+    />
+    <!-- <meta property="twitter:image" content="https://kunwook17.github.io/twitter-image.png" /> -->
+
+    <meta name="msapplication-TileColor" content="#603cba" />
+    <meta name="theme-color" content="#6c63ff" />
+
+    <!-- Icons -->
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="%PUBLIC_URL%/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="%PUBLIC_URL%/favicon-16x16.png"
+    />
+    <link
+      rel="mask-icon"
+      href="%PUBLIC_URL%/safari-pinned-tab.svg"
+      color="#885bd5"
+    />
+    <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico" />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="%PUBLIC_URL%/apple-touch-icon.png"
+    />
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+
+    <!-- Fonts -->
+    <link
+      rel="preload"
+      href="/static/media/Montserrat-Regular.ee653992.ttf"
+      as="font"
+      type="font/woff"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      href="/static/media/Agustina.21f233e1.woff"
+      as="font"
+      type="font/woff"
+      crossorigin
+    />
+
+    <!-- Google Analytics -->
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=UA-135618960-2"
+    ></script>
     <script>
-      (function (l) {
-        // 현재의 경로/쿼리/해시를 모두 보존해서 index.html 로 전달
-        var redirect = l.pathname + l.search + l.hash;
-        // 사용자 페이지(루트 도메인)이므로 앞에 별도 repo 경로 필요 없음
-        l.replace('/?p=' + encodeURIComponent(redirect));
-      })(window.location);
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+      gtag("config", "UA-135618960-2");
     </script>
+
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/gh/FortAwesome/Font-Awesome@5.15.4/css/all.min.css"
+    />
   </head>
-  <body></body>
+  <body>
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root"></div>
+    <!-- React가 이 div에 mount됨 -->
+  </body>
 </html>
