@@ -1,48 +1,74 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <title>RobotArm Project</title>
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <style>
-    body { max-width: 980px; margin: 40px auto; padding: 0 16px; line-height: 1.6; }
-    pre, code { white-space: pre-wrap; word-break: break-word; }
-    img { max-width: 100%; height: auto; }
-    table { border-collapse: collapse; width: 100%; }
-    th, td { border: 1px solid #ddd; padding: 6px 8px; }
-    h1, h2, h3 { margin-top: 28px; }
-  </style>
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/dompurify@3.1.7/dist/purify.min.js"></script>
-</head>
-<body>
-  <h1>RobotArm Project</h1>
-  <div id="content">Loading...</div>
-
-  <script>
-    (async () => {
-      // ✅ 로컬/배포 경로 자동 분기
-      const isLocal = ["localhost", "127.0.0.1"].includes(window.location.hostname);
-      const base = isLocal ? "." : "/projects/liquid_injection";
-      const mdUrl = `${base}/liquid_injection.md`;
-
-      // 캐시가 남을 때를 대비한 옵션(원치 않으면 bust 제거)
-      const bust = isLocal ? "" : `?v=${Date.now()}`;
-
-      try {
-        const res = await fetch(mdUrl + bust, { cache: "no-cache" });
-        if (!res.ok) throw new Error(`HTTP ${res.status} @ ${mdUrl}`);
-        const md = await res.text();
-
-        const html = DOMPurify.sanitize(
-          marked.parse(md, { mangle: false, headerIds: true })
-        );
-        document.getElementById("content").innerHTML = html;
-      } catch (e) {
-        console.error(e);
-        document.getElementById("content").textContent = "Failed to load content.";
+  <head>
+    <meta charset="utf-8" />
+    <title>RobotArm Project</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <style>
+      body {
+        max-width: 980px;
+        margin: 40px auto;
+        padding: 0 16px;
+        line-height: 1.6;
       }
-    })();
-  </script>
-</body>
+      pre,
+      code {
+        white-space: pre-wrap;
+        word-break: break-word;
+      }
+      img {
+        max-width: 100%;
+        height: auto;
+      }
+      table {
+        border-collapse: collapse;
+        width: 100%;
+      }
+      th,
+      td {
+        border: 1px solid #ddd;
+        padding: 6px 8px;
+      }
+      h1,
+      h2,
+      h3 {
+        margin-top: 28px;
+      }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dompurify@3.1.7/dist/purify.min.js"></script>
+  </head>
+  <body>
+    <h1>RobotArm Project</h1>
+    <div id="content">Loading...</div>
+
+    <script>
+      (async () => {
+        // ✅ 로컬/배포 경로 자동 분기
+        const isLocal = ["localhost", "127.0.0.1"].includes(
+          window.location.hostname
+        );
+        const base = isLocal ? "." : "/projects/liquid_injection";
+        const mdUrl = `${base}/liquid_injection.md`;
+
+        // 캐시가 남을 때를 대비한 옵션(원치 않으면 bust 제거)
+        const bust = isLocal ? "" : `?v=${Date.now()}`;
+
+        try {
+          const res = await fetch(mdUrl + bust, {cache: "no-cache"});
+          if (!res.ok) throw new Error(`HTTP ${res.status} @ ${mdUrl}`);
+          const md = await res.text();
+
+          const html = DOMPurify.sanitize(
+            marked.parse(md, {mangle: false, headerIds: true})
+          );
+          document.getElementById("content").innerHTML = html;
+        } catch (e) {
+          console.error(e);
+          document.getElementById("content").textContent =
+            "Failed to load content.";
+        }
+      })();
+    </script>
+  </body>
 </html>

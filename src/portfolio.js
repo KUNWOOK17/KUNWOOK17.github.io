@@ -237,7 +237,8 @@ const bigProjects = {
     },
     {
       image: require("/home/kunwookpark/kunwook17/src/assets/images/m0609.png"),
-      projectName: "Precision Composition-Controlled Compound Manufacturing System",
+      projectName:
+        "Precision Composition-Controlled Compound Manufacturing System",
       projectDesc:
         "Implementation of a robot automation process system using ROS2",
       footerLink: [
@@ -248,9 +249,10 @@ const bigProjects = {
       ]
       // route: "src/pages/Project1.js"
     },
-        {
+    {
       image: require("/home/kunwookpark/kunwook17/src/assets/images/m0609.png"),
-      projectName: "Precision Composition-Controlled Compound Manufacturing System",
+      projectName:
+        "Precision Composition-Controlled Compound Manufacturing System",
       projectDesc:
         "Implementation of a robot automation process system using ROS2",
       footerLink: [

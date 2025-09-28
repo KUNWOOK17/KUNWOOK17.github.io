@@ -10,7 +10,7 @@
 //   );
 // }
 // App.js
-import { BrowserRouter as Router } from "react-router-dom";
+import {BrowserRouter as Router} from "react-router-dom";
 import ScrollToTop from "./components/ScrollToTop";
 import Main from "./containers/Main";
 
@@ -24,4 +24,3 @@ function App() {
 }
 
 export default App;
-

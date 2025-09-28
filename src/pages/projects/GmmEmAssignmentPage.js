@@ -44,14 +44,14 @@
 // //             수식: mu_j = (1/N_j) * sum_i(gamma_ij * x_i)
 // //           </p>
 // //         </section>
-        
+
 // //         <section className="gmm-section">
 // //           <h2>4. 클러스터링 결과 시각화 (K=2, 3, 4, 5)</h2>
 // //           <p>
 // //             다양한 K 값에 대한 클러스터링 결과를 시각화하여 알고리즘의 성능을 확인했습니다.
 // //           </p>
 // //         </section>
-        
+
 // //         <section className="gmm-section">
 // //           <h2>5. 최적의 K 값 선정</h2>
 // //           <p>
@@ -255,13 +255,13 @@
 // try:
 //     X = load_csv_2d('FAA_AEDT_data.csv')
 //     print("CSV 파일을 성공적으로 불러왔습니다.")
-    
+
 //     results = {}
 //     for K in [2,3,4,5]:
 //         model = gmm_em(X, K, max_iter=300, tol=1e-6, reg_covar=1e-6, seed=7)
 //         AIC, BIC = aic_bic(X, model)
 //         results[K] = {"model": model, "AIC": AIC, "BIC": BIC}
-        
+
 //         # 플롯을 생성하고 HTML 문자열로 변환
 //         plot_html = plot_clusters(X, model["labels"], model["mus"], f"GMM-EM (K={K})")
 //         log_ll_html = plot_ll(model["ll_hist"], f"Log-likelihood (K={K}, iters={model['n_iter']})")
@@ -275,7 +275,7 @@
 //     best_aic = min(results, key=lambda k: results[k]['AIC'])
 //     best_bic = min(results, key=lambda k: results[k]['BIC'])
 //     print(f"\\nBest by AIC: K={best_aic} | Best by BIC: K={best_bic}")
-    
+
 // except Exception as e:
 //     print(f"오류가 발생했습니다: {e}")
 //   `;
@@ -354,29 +354,29 @@
 
 // export default GmmEmAssignmentPage;
 
-import React, { useState, useEffect } from 'react';
-import './GmmEmAssignmentPage.scss';
-import { BlockMath } from 'react-katex';
-import 'katex/dist/katex.min.css';
+import React, {useState, useEffect} from "react";
+import "./GmmEmAssignmentPage.scss";
+import {BlockMath} from "react-katex";
+import "katex/dist/katex.min.css";
 
 // Pyodide를 사용하기 위해 CDN에서 스크립트를 로드합니다.
-const PYODIDE_URL = 'https://cdn.jsdelivr.net/pyodide/v0.25.0/full/pyodide.js';
+const PYODIDE_URL = "https://cdn.jsdelivr.net/pyodide/v0.25.0/full/pyodide.js";
 
-function GmmEmAssignmentPage({ changePage }) {
+function GmmEmAssignmentPage({changePage}) {
   const [pyodide, setPyodide] = useState(null);
-  const [output, setOutput] = useState('');
+  const [output, setOutput] = useState("");
   const [loading, setLoading] = useState(true);
 
   // Pyodide 로드
   useEffect(() => {
     async function loadPyodide() {
       const pyodide = await window.loadPyodide();
-      await pyodide.loadPackage(['numpy', 'pandas', 'scipy', 'matplotlib']);
+      await pyodide.loadPackage(["numpy", "pandas", "scipy", "matplotlib"]);
       setPyodide(pyodide);
       setLoading(false);
     }
     if (!window.pyodide) {
-      const script = document.createElement('script');
+      const script = document.createElement("script");
       script.src = PYODIDE_URL;
       script.onload = loadPyodide;
       document.head.appendChild(script);
@@ -387,29 +387,29 @@ function GmmEmAssignmentPage({ changePage }) {
 
   const runCode = async (code, file) => {
     if (!pyodide) {
-      setOutput('Python 환경을 불러오는 중입니다. 잠시만 기다려주세요.');
+      setOutput("Python 환경을 불러오는 중입니다. 잠시만 기다려주세요.");
       return;
     }
     setLoading(true);
-    setOutput('코드를 실행 중입니다...');
+    setOutput("코드를 실행 중입니다...");
 
     try {
       // 파일 처리: Pyodide 파일 시스템에 업로드
       if (file) {
         const fileContent = await file.arrayBuffer();
-        pyodide.FS.writeFile('FAA_AEDT_data.csv', new Uint8Array(fileContent));
+        pyodide.FS.writeFile("FAA_AEDT_data.csv", new Uint8Array(fileContent));
       }
 
       // 표준 출력(console.log)을 캡처
       const capturedOutput = [];
       const originalLog = console.log;
-      console.log = (...args) => capturedOutput.push(args.join(' '));
+      console.log = (...args) => capturedOutput.push(args.join(" "));
 
       // Python 코드 실행
       await pyodide.runPythonAsync(code);
 
       console.log = originalLog; // 원본으로 복원
-      setOutput(capturedOutput.join('\n'));
+      setOutput(capturedOutput.join("\n"));
     } catch (error) {
       setOutput(`오류 발생:\n${error.message}`);
     } finally {
@@ -565,7 +565,7 @@ except Exception as e:
     print(f"오류가 발생했습니다: {e}")
   `;
 
-  const handleFileChange = (event) => {
+  const handleFileChange = event => {
     const file = event.target.files[0];
     if (file) {
       runCode(pythonCode, file);
@@ -585,28 +585,36 @@ except Exception as e:
         <section className="gmm-section">
           <h2>1. 실행하기</h2>
           <p>
-            Pyodide를 이용하여 브라우저에서 직접 Python 코드를 실행합니다.
-            아래 버튼을 눌러 과제에 필요한 CSV 파일을 업로드해주세요.
+            Pyodide를 이용하여 브라우저에서 직접 Python 코드를 실행합니다. 아래
+            버튼을 눌러 과제에 필요한 CSV 파일을 업로드해주세요.
           </p>
           <input type="file" onChange={handleFileChange} />
-          {loading && <p>데이터를 로드하고 코드를 실행 중입니다. 잠시만 기다려주세요...</p>}
+          {loading && (
+            <p>
+              데이터를 로드하고 코드를 실행 중입니다. 잠시만 기다려주세요...
+            </p>
+          )}
           <pre>
-            <code className="console-output" dangerouslySetInnerHTML={{ __html: output || "코드를 실행하려면 CSV 파일을 업로드해주세요." }}>
-            </code>
+            <code
+              className="console-output"
+              dangerouslySetInnerHTML={{
+                __html: output || "코드를 실행하려면 CSV 파일을 업로드해주세요."
+              }}
+            ></code>
           </pre>
         </section>
 
         <section className="gmm-section">
           <h2>2. 알고리즘 구현</h2>
           <p>
-            본 프로젝트에 사용된 GMM-EM 알고리즘의 핵심 구현 코드는 다음과 같습니다.
+            본 프로젝트에 사용된 GMM-EM 알고리즘의 핵심 구현 코드는 다음과
+            같습니다.
             <br />
-            (클러스터 초기화는 Pyodide 환경에 맞게 랜덤 방식으로 변경되었습니다.)
+            (클러스터 초기화는 Pyodide 환경에 맞게 랜덤 방식으로
+            변경되었습니다.)
           </p>
           <pre>
-            <code className="python-code">
-              {pythonCode}
-            </code>
+            <code className="python-code">{pythonCode}</code>
           </pre>
         </section>
 
@@ -616,17 +624,12 @@ except Exception as e:
             GMM-EM 알고리즘은 크게 기댓값(E) 단계와 최대화(M) 단계로 나뉩니다.
           </p>
           <h3>E-step (기댓값 단계)</h3>
-          <p>
-            각 데이터 포인트가 특정 클러스터에 속할 확률을 계산합니다.
-          </p>
+          <p>각 데이터 포인트가 특정 클러스터에 속할 확률을 계산합니다.</p>
           <BlockMath math="\gamma_{ij} = \frac{\pi_j \mathcal{N}(x_i | \mu_j, \Sigma_j)}{\sum_{k=1}^K \pi_k \mathcal{N}(x_i | \mu_k, \Sigma_k)}" />
           <h3>M-step (최대화 단계)</h3>
-          <p>
-            계산된 확률을 이용해 클러스터의 매개변수를 업데이트합니다.
-          </p>
+          <p>계산된 확률을 이용해 클러스터의 매개변수를 업데이트합니다.</p>
           <BlockMath math="\mu_j = \frac{1}{N_j} \sum_{i=1}^N \gamma_{ij} x_i" />
         </section>
-
       </div>
 
       <button className="back-button" onClick={() => changePage("main")}>

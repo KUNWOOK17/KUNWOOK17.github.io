@@ -327,7 +327,7 @@
 //     </div>
 //   );
 // };
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 import Header from "../components/header/Header";
 import Greeting from "./greeting/Greeting";
 import Skills from "./skills/Skills";
@@ -345,9 +345,9 @@ import ScrollToTopButton from "./topbutton/Top";
 import Twitter from "./twitter-embed/twitter";
 import Profile from "./profile/Profile";
 import SplashScreen from "./splashScreen/SplashScreen";
-import { splashScreen } from "../portfolio";
-import { StyleProvider } from "../contexts/StyleContext";
-import { useLocalStorage } from "../hooks/useLocalStorage";
+import {splashScreen} from "../portfolio";
+import {StyleProvider} from "../contexts/StyleContext";
+import {useLocalStorage} from "../hooks/useLocalStorage";
 import "./Main.scss";
 // 기존 프로젝트 컴포넌트 import
 import Project1 from "../pages/projects/Project1";
@@ -358,14 +358,19 @@ import GmmEmAssignmentPage from "../pages/projects/GmmEmAssignmentPage";
 const Main = () => {
   const darkPref = window.matchMedia("(prefers-color-scheme: dark)");
   const [isDark, setIsDark] = useLocalStorage("isDark", darkPref.matches);
-  const [isShowingSplashAnimation, setIsShowingSplashAnimation] = useState(true);
+  const [isShowingSplashAnimation, setIsShowingSplashAnimation] =
+    useState(true);
   const [currentPage, setCurrentPage] = useState("main");
 
   useEffect(() => {
     const handlePopState = () => {
       // 새로운 경로 'gmm-em-assignment'를 추가합니다.
       const path = window.location.pathname.replace("/", "");
-      if (path === "project1" || path === "project4" || path === "gmm-em-assignment") {
+      if (
+        path === "project1" ||
+        path === "project4" ||
+        path === "gmm-em-assignment"
+      ) {
         setCurrentPage(path);
       } else {
         setCurrentPage("main");
@@ -376,7 +381,11 @@ const Main = () => {
 
     const initialPath = window.location.pathname.replace("/", "");
     // 초기 경로 확인 로직에도 'gmm-em-assignment'를 추가합니다.
-    if (initialPath === "project1" || initialPath === "project4" || initialPath === "gmm-em-assignment") {
+    if (
+      initialPath === "project1" ||
+      initialPath === "project4" ||
+      initialPath === "gmm-em-assignment"
+    ) {
       setCurrentPage(initialPath);
     } else {
       setCurrentPage("main");
@@ -403,7 +412,7 @@ const Main = () => {
     setIsDark(!isDark);
   };
 
-  const changePage = (pageName) => {
+  const changePage = pageName => {
     setCurrentPage(pageName);
     window.history.pushState(
       null,
@@ -418,7 +427,7 @@ const Main = () => {
 
   return (
     <div className={isDark ? "dark-mode" : null}>
-      <StyleProvider value={{ isDark: isDark, changeTheme: changeTheme }}>
+      <StyleProvider value={{isDark: isDark, changeTheme: changeTheme}}>
         {isShowingSplashAnimation && splashScreen.enabled ? (
           <SplashScreen />
         ) : (
@@ -446,7 +455,9 @@ const Main = () => {
             {currentPage === "project1" && <Project1 changePage={changePage} />}
             {currentPage === "project4" && <Project4 changePage={changePage} />}
             {/* ✅ 새로운 과제 페이지를 추가합니다. */}
-            {currentPage === "gmm-em-assignment" && <GmmEmAssignmentPage changePage={changePage} />}
+            {currentPage === "gmm-em-assignment" && (
+              <GmmEmAssignmentPage changePage={changePage} />
+            )}
 
             <Footer />
             <ScrollToTopButton />

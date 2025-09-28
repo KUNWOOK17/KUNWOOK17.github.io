@@ -2,8 +2,7 @@ import React from "react";
 import "./BlogCard.scss";
 
 // ✅ props로 changePage 함수를 받도록 수정했습니다.
-export default function BlogCard({ blog, isDark, changePage }) {
-
+export default function BlogCard({blog, isDark, changePage}) {
   // 외부 URL을 새 탭에서 열거나, 내부 라우트로 페이지를 변경하는 함수
   function handleCardClick() {
     if (blog.route) {

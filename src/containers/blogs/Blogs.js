@@ -98,16 +98,16 @@
 //   );
 // }
 
-import React, { useState, useEffect, useContext } from "react";
+import React, {useState, useEffect, useContext} from "react";
 import "./Blog.scss";
 import BlogCard from "../../components/blogCard/BlogCard";
-import { blogSection } from "../../portfolio";
-import { Fade } from "react-reveal";
+import {blogSection} from "../../portfolio";
+import {Fade} from "react-reveal";
 import StyleContext from "../../contexts/StyleContext";
 
 // ✅ props로 changePage 함수를 받도록 수정했습니다.
-export default function Blogs({ changePage }) {
-  const { isDark } = useContext(StyleContext);
+export default function Blogs({changePage}) {
+  const {isDark} = useContext(StyleContext);
   const [mediumBlogs, setMediumBlogs] = useState([]);
 
   function setMediumBlogsFunction(array) {
@@ -168,40 +168,42 @@ export default function Blogs({ changePage }) {
         </div>
         <div className="blog-main-div">
           <div className="blog-text-div">
-            {blogSection.displayMediumBlogs !== "true" || mediumBlogs === "Error" ? (
-              // ✅ 여기를 수정했습니다. blog.url 대신 blog.route가 있을 때 changePage를 호출합니다.
-              blogSection.blogs.map((blog, i) => {
-                return (
-                  // blog.route가 있으면 onClick으로 페이지를 이동하고, 없으면 일반 링크로 작동합니다.
-                  <div key={i} onClick={blog.route ? () => changePage(blog.route) : null}>
-                    <BlogCard
-                      isDark={isDark}
-                      blog={{
-                        url: blog.url,
-                        image: blog.image,
-                        title: blog.title,
-                        description: blog.description
-                      }}
-                    />
-                  </div>
-                );
-              })
-            ) : (
-              mediumBlogs.map((blog, i) => {
-                return (
-                  <div key={i}>
-                    <BlogCard
-                      isDark={isDark}
-                      blog={{
-                        url: blog.link,
-                        title: blog.title,
-                        description: extractTextContent(blog.content)
-                      }}
-                    />
-                  </div>
-                );
-              })
-            )}
+            {blogSection.displayMediumBlogs !== "true" ||
+            mediumBlogs === "Error"
+              ? // ✅ 여기를 수정했습니다. blog.url 대신 blog.route가 있을 때 changePage를 호출합니다.
+                blogSection.blogs.map((blog, i) => {
+                  return (
+                    // blog.route가 있으면 onClick으로 페이지를 이동하고, 없으면 일반 링크로 작동합니다.
+                    <div
+                      key={i}
+                      onClick={blog.route ? () => changePage(blog.route) : null}
+                    >
+                      <BlogCard
+                        isDark={isDark}
+                        blog={{
+                          url: blog.url,
+                          image: blog.image,
+                          title: blog.title,
+                          description: blog.description
+                        }}
+                      />
+                    </div>
+                  );
+                })
+              : mediumBlogs.map((blog, i) => {
+                  return (
+                    <div key={i}>
+                      <BlogCard
+                        isDark={isDark}
+                        blog={{
+                          url: blog.link,
+                          title: blog.title,
+                          description: extractTextContent(blog.content)
+                        }}
+                      />
+                    </div>
+                  );
+                })}
           </div>
         </div>
       </div>
