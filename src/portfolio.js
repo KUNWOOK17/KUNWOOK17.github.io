@@ -222,22 +222,8 @@ const bigProjects = {
   subtitle: "SOME STARTUPS AND COMPANIES THAT I HELPED TO CREATE THEIR TECH",
   projects: [
     {
-      image: require("/home/kunwookpark/kunwook17/src/assets/images/m0609.png"),
-      projectName: "Doosan Robotics Project 1",
-      projectDesc:
-        "Implementation of a robot automation process system using ROS2",
-      footerLink: [
-        {
-          name: "View Details",
-          url: "/projects/liquid_injection/"
-        }
-      ]
-
-      // route: "src/pages/Project1.js"
-    },
-    {
       image: require("/home/kunwookpark/kunwook17/src/assets/images/TurtleBot4_Header.png"),
-      projectName: "Doosan Robotics Project 4",
+      projectName: "Industrial Safety Robot System",
       projectDesc:
         "Development of an autonomous navigation robot system based on SLAM",
       footerLink: [
@@ -248,6 +234,32 @@ const bigProjects = {
         //  you can add extra buttons here.
       ]
       // route: "src/pages/Project4.js"
+    },
+    {
+      image: require("/home/kunwookpark/kunwook17/src/assets/images/m0609.png"),
+      projectName: "Precision Composition-Controlled Compound Manufacturing System",
+      projectDesc:
+        "Implementation of a robot automation process system using ROS2",
+      footerLink: [
+        {
+          name: "View Details",
+          url: "/projects/liquid_injection/"
+        }
+      ]
+      // route: "src/pages/Project1.js"
+    },
+        {
+      image: require("/home/kunwookpark/kunwook17/src/assets/images/m0609.png"),
+      projectName: "Precision Composition-Controlled Compound Manufacturing System",
+      projectDesc:
+        "Implementation of a robot automation process system using ROS2",
+      footerLink: [
+        {
+          name: "View Details",
+          url: "/projects/liquid_injection/"
+        }
+      ]
+      // route: "src/pages/Project1.js"
     }
   ],
   display: true // Set false to hide this section, defaults to true
@@ -315,28 +327,25 @@ const achievementSection = {
 };
 
 // Blogs Section
+// src/portfolio.js
 
 const blogSection = {
-  title: "Blogs",
+  title: "Assignment",
   subtitle:
-    "With Love for Developing cool stuff, I love to write and teach others what I have learnt.",
-  displayMediumBlogs: "true", // Set true to display fetched medium blogs instead of hardcoded ones
+    "Clustering of Aviation Data Using the Gaussian Mixture Model (GMM) and Expectation-Maximization (EM) Algorithm",
+  displayMediumBlogs: "true",
   blogs: [
     {
-      url: "https://blog.usejournal.com/create-a-google-assistant-action-and-win-a-google-t-shirt-and-cloud-credits-4a8d86d76eae",
-      title: "Win a Google Assistant Tshirt and $200 in Google Cloud Credits",
-      description:
-        "Do you want to win $200 and Google Assistant Tshirt by creating a Google Assistant Action in less then 30 min?"
-    },
-    {
-      url: "https://medium.com/@saadpasta/why-react-is-the-best-5a97563f423e",
-      title: "Why REACT is The Best?",
-      description:
-        "React is a JavaScript library for building User Interface. It is maintained by Facebook and a community of individual developers and companies."
+      // ✅ 외부 링크 대신 내부 경로를 지정합니다.
+      route: "gmm-em-assignment",
+      title: "GMM with EM Algorithm",
+      description: "과제 상세 페이지로 이동합니다."
     }
-  ]
-  // display: true // Set false to hide this section, defaults to true
+  ],
+  display: true
 };
+
+// ... 나머지 코드
 
 // Talks Sections
 
