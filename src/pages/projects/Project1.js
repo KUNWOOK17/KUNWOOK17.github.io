@@ -40,7 +40,7 @@
 import React from "react";
 import "./Project1.scss";
 import "katex/dist/katex.min.css";
-import {BlockMath, InlineMath} from "react-katex";
+import { BlockMath } from 'react-katex';
 import MathJax from "react-mathjax2";
 
 export default function Project1() {

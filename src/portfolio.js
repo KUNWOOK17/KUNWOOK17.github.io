@@ -183,7 +183,7 @@ const workExperiences = {
     {
       role: "Participant",
       company: "Doosan Robotics Bootcamp",
-      companylogo: require("/home/kunwookpark/kunwook17/src/assets/images/DoosanRoboticsLogo.png"),
+      companylogo: require("./assets/images/DoosanRoboticsLogo.png"),
       date: "March 2025 – September 2025",
       desc: "Doosan Robotics, 4th Cohort Graduate",
       descBullets: [
@@ -222,7 +222,7 @@ const bigProjects = {
   subtitle: "SOME STARTUPS AND COMPANIES THAT I HELPED TO CREATE THEIR TECH",
   projects: [
     {
-      image: require("/home/kunwookpark/kunwook17/src/assets/images/TurtleBot4_Header.png"),
+      image: require("./assets/images/TurtleBot4_Header.png"),
       projectName: "Industrial Safety Robot System",
       projectDesc:
         "Development of an autonomous navigation robot system based on SLAM",
@@ -236,7 +236,7 @@ const bigProjects = {
       // route: "src/pages/Project4.js"
     },
     {
-      image: require("/home/kunwookpark/kunwook17/src/assets/images/m0609.png"),
+      image: require("./assets/images/m0609.png"),
       projectName:
         "Precision Composition-Controlled Compound Manufacturing System",
       projectDesc:
@@ -250,7 +250,7 @@ const bigProjects = {
       // route: "src/pages/Project1.js"
     },
     {
-      image: require("/home/kunwookpark/kunwook17/src/assets/images/m0609.png"),
+      image: require("./assets/images/m0609.png"),
       projectName:
         "Precision Composition-Controlled Compound Manufacturing System",
       projectDesc:
