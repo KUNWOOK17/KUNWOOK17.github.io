@@ -85,14 +85,14 @@
 
 /* 🔧 왼쪽 바 영역 넓힘 */
 .skills-bar {
-  flex: 0 0 60%;          /* ✅ 기존 55% → 60% 로 확장 */
-  max-width: 750px;       /* ✅ 텍스트/바 길이 확보 */
+  flex: 0 0 60%; /* ✅ 기존 55% → 60% 로 확장 */
+  max-width: 750px; /* ✅ 텍스트/바 길이 확보 */
   font-size: 28px;
 }
 
 /* 오른쪽 일러스트 영역 */
 .skills-image {
-  flex: 0 0 40%;          /* ✅ 기존 45% → 40% 로 축소 */
+  flex: 0 0 40%; /* ✅ 기존 45% → 40% 로 축소 */
   display: flex;
   justify-content: flex-end;
   align-items: center;
@@ -102,7 +102,7 @@
 .skills-image > img,
 .skills-lottie-wrapper {
   width: 85%;
-  max-width: 380px;       /* ✅ 살짝 축소해서 균형 맞춤 */
+  max-width: 380px; /* ✅ 살짝 축소해서 균형 맞춤 */
   height: auto;
   display: block;
 }

@@ -17,7 +17,7 @@ import {
   bigProjects
 } from "../../portfolio";
 
-function Header({ changePage }) {
+function Header({changePage}) {
   const {isDark} = useContext(StyleContext);
   const viewExperience = workExperiences.display;
   const viewOpenSource = openSource.display;
@@ -30,14 +30,14 @@ function Header({ changePage }) {
   const viewbigProjects = bigProjects.display;
 
   // 클릭 시: 메뉴 닫고 메인으로 전환 + 해당 섹션 스크롤
-  const navigateTo = (sectionId) => (e) => {
+  const navigateTo = sectionId => e => {
     e.preventDefault();
     const checkbox = document.getElementById("menu-btn");
     if (checkbox) checkbox.checked = false;
     changePage("main", sectionId);
   };
 
-  const goHome = (e) => {
+  const goHome = e => {
     e.preventDefault();
     const checkbox = document.getElementById("menu-btn");
     if (checkbox) checkbox.checked = false;
@@ -54,43 +54,89 @@ function Header({ changePage }) {
         </a>
 
         <input className="menu-btn" type="checkbox" id="menu-btn" />
-        <label className="menu-icon" htmlFor="menu-btn" style={{color: "white"}}>
+        <label
+          className="menu-icon"
+          htmlFor="menu-btn"
+          style={{color: "white"}}
+        >
           <span className={isDark ? "navicon navicon-dark" : "navicon"}></span>
         </label>
 
         <ul className={isDark ? "dark-menu menu" : "menu"}>
           {viewSkills && (
-            <li><a href="/#skills" onClick={navigateTo("skills")}>Skills</a></li>
+            <li>
+              <a href="/#skills" onClick={navigateTo("skills")}>
+                Skills
+              </a>
+            </li>
           )}
           {viewEducationInfo && (
-            <li><a href="/#education" onClick={navigateTo("education")}>EducationInfo</a></li>
+            <li>
+              <a href="/#education" onClick={navigateTo("education")}>
+                EducationInfo
+              </a>
+            </li>
           )}
           {viewExperience && (
-            <li><a href="/#experience" onClick={navigateTo("experience")}>Experiences</a></li>
+            <li>
+              <a href="/#experience" onClick={navigateTo("experience")}>
+                Experiences
+              </a>
+            </li>
           )}
           {viewbigProjects && (
-            <li><a href="/#projects" onClick={navigateTo("projects")}>bigProjects</a></li>
+            <li>
+              <a href="/#projects" onClick={navigateTo("projects")}>
+                bigProjects
+              </a>
+            </li>
           )}
           {viewOpenSource && (
-            <li><a href="/#opensource" onClick={navigateTo("opensource")}>Open Source</a></li>
+            <li>
+              <a href="/#opensource" onClick={navigateTo("opensource")}>
+                Open Source
+              </a>
+            </li>
           )}
           {viewAchievement && (
-            <li><a href="/#achievements" onClick={navigateTo("achievements")}>Achievements</a></li>
+            <li>
+              <a href="/#achievements" onClick={navigateTo("achievements")}>
+                Achievements
+              </a>
+            </li>
           )}
           {viewBlog && (
-            <li><a href="/#blogs" onClick={navigateTo("blogs")}>Blogs</a></li>
+            <li>
+              <a href="/#blogs" onClick={navigateTo("blogs")}>
+                Blogs
+              </a>
+            </li>
           )}
           {viewTalks && (
-            <li><a href="/#talks" onClick={navigateTo("talks")}>Talks</a></li>
+            <li>
+              <a href="/#talks" onClick={navigateTo("talks")}>
+                Talks
+              </a>
+            </li>
           )}
           {viewResume && (
-            <li><a href="/#resume" onClick={navigateTo("resume")}>Resume</a></li>
+            <li>
+              <a href="/#resume" onClick={navigateTo("resume")}>
+                Resume
+              </a>
+            </li>
           )}
-          <li><a href="/#contact" onClick={navigateTo("contact")}>Contact Me</a></li>
+          <li>
+            <a href="/#contact" onClick={navigateTo("contact")}>
+              Contact Me
+            </a>
+          </li>
 
           <li>
             {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-            <a><ToggleSwitch /></a>
+            <a>
+              <ToggleSwitch />
+            </a>
           </li>
         </ul>
       </header>

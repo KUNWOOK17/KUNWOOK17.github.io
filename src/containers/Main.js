@@ -31,7 +31,8 @@ import GmmEmAssignmentPage from "../pages/projects/GmmEmAssignmentPage";
 const Main = () => {
   const darkPref = window.matchMedia("(prefers-color-scheme: dark)");
   const [isDark, setIsDark] = useLocalStorage("isDark", darkPref.matches);
-  const [isShowingSplashAnimation, setIsShowingSplashAnimation] = useState(true);
+  const [isShowingSplashAnimation, setIsShowingSplashAnimation] =
+    useState(true);
   const [currentPage, setCurrentPage] = useState("main");
 
   // ✅ 해시(#)가 남은 상태로 새로고침하면 강제로 "/"로 리다이렉트
@@ -166,10 +167,18 @@ const Main = () => {
                 </>
               )}
 
-              {currentPage === "project1" && <Project1 changePage={changePage} />}
-              {currentPage === "project2" && <Project2 changePage={changePage} />}
-              {currentPage === "project3" && <Project3 changePage={changePage} />}
-              {currentPage === "project4" && <Project4 changePage={changePage} />}
+              {currentPage === "project1" && (
+                <Project1 changePage={changePage} />
+              )}
+              {currentPage === "project2" && (
+                <Project2 changePage={changePage} />
+              )}
+              {currentPage === "project3" && (
+                <Project3 changePage={changePage} />
+              )}
+              {currentPage === "project4" && (
+                <Project4 changePage={changePage} />
+              )}
 
               {currentPage === "gmm-em-assignment" && (
                 <GmmEmAssignmentPage changePage={changePage} />

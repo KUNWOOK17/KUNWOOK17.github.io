@@ -10,12 +10,13 @@ export default function Project2() {
       <header className="proj1__hero">
         {/* <div className="proj1__hero-badge">Project1</div> */}
         <h1 className="proj1__title">
-          AI-Driven Collaborative Robot Work Assistant: A Vision-Based Approach Using YOLO Object Detection and Human-Robot Interaction Intelligence{" "}
+          AI-Driven Collaborative Robot Work Assistant: A Vision-Based Approach
+          Using YOLO Object Detection and Human-Robot Interaction Intelligence{" "}
         </h1>
         <p className="proj1__subtitle">
-          “When machines begin to see and understand, collaboration becomes intuition.”
+          “When machines begin to see and understand, collaboration becomes
+          intuition.”
         </p>
-
       </header>
 
       <section className="proj1__section">
@@ -33,7 +34,6 @@ export default function Project2() {
           ></iframe>
         </div>
       </section>
-
     </article>
   );
 }

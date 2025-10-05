@@ -60,7 +60,7 @@ export default function StackProgress() {
         <div className="skills-bar">
           <h1 className="skills-heading">Proficiency</h1>
           {techStack.experience.map((exp, i) => {
-            const progressStyle = { width: exp.progressPercentage };
+            const progressStyle = {width: exp.progressPercentage};
             return (
               <div key={i} className="skill">
                 <p>{exp.Stack}</p>
@@ -79,10 +79,7 @@ export default function StackProgress() {
               <DisplayLottie animationData={Build} />
             </div>
           ) : (
-            <img
-              alt="Skills"
-              src={require("../../assets/images/skill.svg")}
-            />
+            <img alt="Skills" src={require("../../assets/images/skill.svg")} />
           )}
         </div>
       </div>

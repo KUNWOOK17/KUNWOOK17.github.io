@@ -253,8 +253,7 @@ const bigProjects = {
       image: require("./assets/images/ironmanrobotarm.jpg"),
       projectName:
         "Implementation of an AI-Based Collaborative Robot Work Assistant Using Computer Vision",
-      projectDesc:
-        "AI vision-based collaborative robot assistant using YOLO",
+      projectDesc: "AI vision-based collaborative robot assistant using YOLO",
       footerLink: [
         {
           name: "View Details",

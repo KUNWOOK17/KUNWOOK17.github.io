@@ -10,10 +10,12 @@ export default function Project3() {
       <header className="proj1__hero">
         {/* <div className="proj1__hero-badge">Project1</div> */}
         <h1 className="proj1__title">
-          Digital Twin–Enabled Service Robot System: Synchronizing Virtual Simulation and Real-World Operation Using TurtleBot3{" "}
+          Digital Twin–Enabled Service Robot System: Synchronizing Virtual
+          Simulation and Real-World Operation Using TurtleBot3{" "}
         </h1>
         <p className="proj1__subtitle">
-          “When the digital and the physical move as one, intelligence becomes reality.”
+          “When the digital and the physical move as one, intelligence becomes
+          reality.”
         </p>
       </header>
 
@@ -32,7 +34,6 @@ export default function Project3() {
           ></iframe>
         </div>
       </section>
-
     </article>
   );
 }

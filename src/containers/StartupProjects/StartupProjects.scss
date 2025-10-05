@@ -74,13 +74,19 @@
 
 /* 반응형(선택): 창이 좁아지면 3→2→1 열 */
 @media (max-width: 1200px) {
-  .projects-container { grid-template-columns: repeat(3, 1fr); }
+  .projects-container {
+    grid-template-columns: repeat(3, 1fr);
+  }
 }
 @media (max-width: 900px) {
-  .projects-container { grid-template-columns: repeat(2, 1fr); }
+  .projects-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 @media (max-width: 600px) {
-  .projects-container { grid-template-columns: 1fr; }
+  .projects-container {
+    grid-template-columns: 1fr;
+  }
 }
 
 .project-card-footer span.project-tag {

@@ -4,8 +4,8 @@ import {bigProjects} from "../../portfolio";
 import {Fade} from "react-reveal";
 import StyleContext from "../../contexts/StyleContext";
 
-export default function StartupProject({ changePage }) {
-  const { isDark } = useContext(StyleContext);
+export default function StartupProject({changePage}) {
+  const {isDark} = useContext(StyleContext);
 
   if (!bigProjects.display) {
     return null;
@@ -77,9 +77,7 @@ export default function StartupProject({ changePage }) {
                       <div className="project-card-footer">
                         <span
                           className={
-                            isDark
-                              ? "dark-mode project-tag"
-                              : "project-tag"
+                            isDark ? "dark-mode project-tag" : "project-tag"
                           }
                           onClick={() => changePage(targetPage)}
                         >
