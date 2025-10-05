@@ -1,11 +1,11 @@
 // src/containers/topbutton/Top.js
-import React, { useEffect } from "react";
+import React, {useEffect} from "react";
 import "./Top.scss";
 
 export default function Top() {
   // 맨 위로
   function TopEvent() {
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    window.scrollTo({top: 0, behavior: "smooth"});
   }
 
   // 버튼 표시/숨김
@@ -24,7 +24,7 @@ export default function Top() {
 
   useEffect(() => {
     // ✅ 전역 할당(window.onscroll) 대신 안전하게 등록/해제
-    window.addEventListener("scroll", scrollFunction, { passive: true });
+    window.addEventListener("scroll", scrollFunction, {passive: true});
     window.addEventListener("load", scrollFunction);
 
     // 첫 렌더 직후 상태 동기화
@@ -37,7 +37,12 @@ export default function Top() {
   }, []);
 
   return (
-    <button onClick={TopEvent} id="topButton" title="Go to top" aria-label="Go to top">
+    <button
+      onClick={TopEvent}
+      id="topButton"
+      title="Go to top"
+      aria-label="Go to top"
+    >
       <i className="fas fa-hand-point-up" aria-hidden="true"></i>
     </button>
   );

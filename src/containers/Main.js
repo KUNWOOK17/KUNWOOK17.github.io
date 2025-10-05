@@ -1,5 +1,5 @@
 // src/containers/Main.js
-import React, { useEffect, useState, useCallback } from "react";
+import React, {useEffect, useState, useCallback} from "react";
 import Header from "../components/header/Header";
 import Greeting from "./greeting/Greeting";
 import Skills from "./skills/Skills";
@@ -17,9 +17,9 @@ import ScrollToTopButton from "./topbutton/Top";
 import Twitter from "./twitter-embed/twitter";
 import Profile from "./profile/Profile";
 import SplashScreen from "./splashScreen/SplashScreen";
-import { splashScreen } from "../portfolio";
-import { StyleProvider } from "../contexts/StyleContext";
-import { useLocalStorage } from "../hooks/useLocalStorage";
+import {splashScreen} from "../portfolio";
+import {StyleProvider} from "../contexts/StyleContext";
+import {useLocalStorage} from "../hooks/useLocalStorage";
 import "./Main.scss";
 
 import Project1 from "../pages/projects/Project1";
@@ -28,12 +28,19 @@ import Project3 from "../pages/projects/Project3";
 import Project4 from "../pages/projects/Project4";
 import GmmEmAssignmentPage from "../pages/projects/GmmEmAssignmentPage";
 
-const PROJECT_PAGES = ["project1", "project2", "project3", "project4", "gmm-em-assignment"];
+const PROJECT_PAGES = [
+  "project1",
+  "project2",
+  "project3",
+  "project4",
+  "gmm-em-assignment"
+];
 
 const Main = () => {
   const darkPref = window.matchMedia("(prefers-color-scheme: dark)");
   const [isDark, setIsDark] = useLocalStorage("isDark", darkPref.matches);
-  const [isShowingSplashAnimation, setIsShowingSplashAnimation] = useState(true);
+  const [isShowingSplashAnimation, setIsShowingSplashAnimation] =
+    useState(true);
   const [currentPage, setCurrentPage] = useState("main");
 
   // 루트(/)에서 해시가 남은 상태로 새로고침되면 주소를 / 로 정리
@@ -48,7 +55,7 @@ const Main = () => {
 
   // 프로젝트 페이지로 전환 시 짧게 노출할 스플래시
   const [isRouteSplash, setIsRouteSplash] = useState(false);
-  const maybeShowRouteSplash = (pageName) => {
+  const maybeShowRouteSplash = pageName => {
     const isProject = PROJECT_PAGES.includes(pageName);
     if (!isProject) return;
     setIsRouteSplash(true);
@@ -62,7 +69,7 @@ const Main = () => {
     const selector = hash.startsWith("#") ? hash : `#${hash}`;
     const el = document.querySelector(selector);
     if (el) {
-      el.scrollIntoView({ behavior: "smooth", block: "start" });
+      el.scrollIntoView({behavior: "smooth", block: "start"});
       return true;
     }
     if (retries > 0) {
@@ -143,8 +150,8 @@ const Main = () => {
 
   return (
     <div className={isDark ? "dark-mode" : null}>
-      <StyleProvider value={{ isDark: isDark, changeTheme: changeTheme }}>
-        {((isShowingSplashAnimation && splashScreen.enabled) || isRouteSplash) ? (
+      <StyleProvider value={{isDark: isDark, changeTheme: changeTheme}}>
+        {(isShowingSplashAnimation && splashScreen.enabled) || isRouteSplash ? (
           <SplashScreen />
         ) : (
           <>
@@ -169,10 +176,18 @@ const Main = () => {
                 </>
               )}
 
-              {currentPage === "project1" && <Project1 changePage={changePage} />}
-              {currentPage === "project2" && <Project2 changePage={changePage} />}
-              {currentPage === "project3" && <Project3 changePage={changePage} />}
-              {currentPage === "project4" && <Project4 changePage={changePage} />}
+              {currentPage === "project1" && (
+                <Project1 changePage={changePage} />
+              )}
+              {currentPage === "project2" && (
+                <Project2 changePage={changePage} />
+              )}
+              {currentPage === "project3" && (
+                <Project3 changePage={changePage} />
+              )}
+              {currentPage === "project4" && (
+                <Project4 changePage={changePage} />
+              )}
 
               {currentPage === "gmm-em-assignment" && (
                 <GmmEmAssignmentPage changePage={changePage} />
