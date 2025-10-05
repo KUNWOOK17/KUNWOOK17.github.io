@@ -1,70 +1,148 @@
+// @import "../../_globalColor";
+
+// .meter {
+//   height: 20px;
+//   position: relative;
+//   background: $progressBarBackground;
+//   -moz-border-radius: 25px;
+//   -webkit-border-radius: 25px;
+//   border-radius: 25px;
+// }
+// .meter > span {
+//   display: block;
+//   height: 100%;
+//   border-top-right-radius: 6px;
+//   border-bottom-right-radius: 6px;
+//   border-top-left-radius: 20px;
+//   border-bottom-left-radius: 20px;
+//   background-color: $progressBarSpanBG;
+//   position: relative;
+//   overflow: hidden;
+// }
+// .skill {
+//   line-height: 3.5vw;
+// }
+// .skill-bars {
+//   font-size: 28px;
+//   width: 40%;
+// }
+// .skills-container {
+//   display: flex;
+//   width: 90%;
+//   padding: 20px 10px;
+//   margin: 0px auto;
+//   margin-top: 2rem;
+// }
+// .skills-container > * {
+//   flex: 1;
+//   margin-bottom: 30px;
+// }
+// .skills-image > img {
+//   margin-left: 80px;
+//   max-width: 90%;
+//   height: auto;
+// }
+
+// /* Media Query */
+
+// @media (max-width: 1456px) {
+//   .skills-bar {
+//     line-height: 4rem;
+//   }
+//   .skills-image {
+//     display: none;
+//     order: 2;
+//   }
+// }
+
+// @media (max-width: 768px) {
+//   .skills-container {
+//     flex-direction: column;
+//   }
+//   .skills-bar {
+//     line-height: 3rem;
+//     margin: 20px;
+//   }
+//   .skills-image {
+//     display: none;
+//     order: 2;
+//   }
+// }
 @import "../../_globalColor";
 
+/* 기본 구조 */
+.skills-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 1280px;
+  padding: 60px 40px;
+  margin: 0 auto;
+  margin-top: 2rem;
+  gap: 40px;
+}
+
+/* 🔧 왼쪽 바 영역 넓힘 */
+.skills-bar {
+  flex: 0 0 60%;          /* ✅ 기존 55% → 60% 로 확장 */
+  max-width: 750px;       /* ✅ 텍스트/바 길이 확보 */
+  font-size: 28px;
+}
+
+/* 오른쪽 일러스트 영역 */
+.skills-image {
+  flex: 0 0 40%;          /* ✅ 기존 45% → 40% 로 축소 */
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  overflow: visible;
+}
+
+.skills-image > img,
+.skills-lottie-wrapper {
+  width: 85%;
+  max-width: 380px;       /* ✅ 살짝 축소해서 균형 맞춤 */
+  height: auto;
+  display: block;
+}
+
+/* 프로그레스 바 스타일 */
 .meter {
   height: 20px;
   position: relative;
   background: $progressBarBackground;
-  -moz-border-radius: 25px;
-  -webkit-border-radius: 25px;
   border-radius: 25px;
 }
 .meter > span {
   display: block;
   height: 100%;
-  border-top-right-radius: 6px;
-  border-bottom-right-radius: 6px;
-  border-top-left-radius: 20px;
-  border-bottom-left-radius: 20px;
+  border-radius: 20px;
   background-color: $progressBarSpanBG;
-  position: relative;
-  overflow: hidden;
 }
+
+/* 줄 간격 */
 .skill {
-  line-height: 3.5vw;
-}
-.skill-bars {
-  font-size: 28px;
-  width: 40%;
-}
-.skills-container {
-  display: flex;
-  width: 90%;
-  padding: 20px 10px;
-  margin: 0px auto;
-  margin-top: 2rem;
-}
-.skills-container > * {
-  flex: 1;
-  margin-bottom: 30px;
-}
-.skills-image > img {
-  margin-left: 80px;
-  max-width: 90%;
-  height: auto;
+  line-height: 2.2rem;
 }
 
-/* Media Query */
-
-@media (max-width: 1456px) {
-  .skills-bar {
-    line-height: 4rem;
-  }
-  .skills-image {
-    display: none;
-    order: 2;
-  }
-}
-
-@media (max-width: 768px) {
+/* 반응형 정리 */
+@media (max-width: 1024px) {
   .skills-container {
     flex-direction: column;
+    padding: 40px 20px;
+    gap: 32px;
   }
   .skills-bar {
-    line-height: 3rem;
-    margin: 20px;
+    flex: none;
+    max-width: 720px;
+    width: 100%;
   }
   .skills-image {
-    display: none;
-    order: 2;
+    justify-content: center;
+  }
+  .skills-image > img,
+  .skills-lottie-wrapper {
+    max-width: 340px;
   }
 }

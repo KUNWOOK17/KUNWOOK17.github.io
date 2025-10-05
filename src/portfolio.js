@@ -250,15 +250,29 @@ const bigProjects = {
       // route: "src/pages/Project1.js"
     },
     {
-      image: require("./assets/images/m0609.png"),
+      image: require("./assets/images/ironmanrobotarm.jpg"),
       projectName:
-        "Precision Composition-Controlled Compound Manufacturing System",
+        "Implementation of an AI-Based Collaborative Robot Work Assistant Using Computer Vision",
       projectDesc:
-        "Implementation of a robot automation process system using ROS2",
+        "AI vision-based collaborative robot assistant using YOLO",
       footerLink: [
         {
           name: "View Details",
-          url: "/projects/liquid_injection/"
+          url: "/projects/YOLO/"
+        }
+      ]
+      // route: "src/pages/Project1.js"
+    },
+    {
+      image: require("./assets/images/turtlebot3_models.png"),
+      projectName:
+        "Development of a Digital Twin–Enabled Service Robot Operating Framework",
+      projectDesc:
+        "Implementation of TurtleBot3 operation in both virtual (RViz) and real environments",
+      footerLink: [
+        {
+          name: "View Details",
+          url: "/projects/RViz/"
         }
       ]
       // route: "src/pages/Project1.js"

@@ -14,6 +14,8 @@ export default function StartupProject({ changePage }) {
   // URL → 내부 페이지 이름 매핑
   const mapUrlToPage = (url = "") => {
     if (url.includes("liquid_injection")) return "project1";
+    if (url.includes("YOLO")) return "project2";
+    if (url.includes("RViz")) return "project3";
     if (url.includes("turtlebot")) return "project4";
     return "main";
   };
