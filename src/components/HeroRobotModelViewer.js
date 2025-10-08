@@ -15,7 +15,7 @@ export default function HeroRobotModelViewer() {
 
       /* 조명 세팅(배포에서도 일관성) */
       environment-image="neutral"   // ✅ 기본 IBL 확실히 지정
-      exposure="0.7"                // ✅ 과노출 방지 (0.8~1.0 사이로 조정)
+      exposure="0.4"                // ✅ 과노출 방지 (0.8~1.0 사이로 조정)
 
       /* 크기/프레이밍(네가 쓰던 값 유지) */
       scale="2 2 2"
