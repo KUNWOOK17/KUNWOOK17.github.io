@@ -3,44 +3,39 @@
 .main {
   width: 90%;
   padding: 20px 10px;
-  margin: 0px auto;
+  margin: 0 auto;
   margin-top: 4rem;
 }
+
 .greet-main {
   width: 90%;
   padding: 20px 10px;
-  margin: 0px auto;
+  margin: 0 auto;
   margin-top: 2rem;
 }
 
+/* 텍스트/3D 수평 배치 */
 .greeting-main {
   display: flex;
+  align-items: flex-start; /* 필요하면 center 로 */
+  gap: 24px;
 }
 
-.subTitle {
-  color: $subTitle !important;
-}
-
-.greeting-main {
-  display: flex;
-}
+.subTitle { color: $subTitle !important; }
 
 .greeting-main > * {
   flex: 1;
   margin-bottom: 30px;
 }
 
-.empty-div {
-  margin-bottom: 40px;
-}
+.empty-div { margin-bottom: 40px; }
 
 .button-greeting-div {
   display: flex;
   margin-top: 40px;
 }
-.download-link-button {
-  text-decoration: none;
-}
+
+.download-link-button { text-decoration: none; }
 
 .greeting-text {
   font-size: 70px;
@@ -53,75 +48,72 @@
   line-height: 40px;
 }
 
+/* 이미지/3D 공통 */
 .greeting-image-div > img {
   max-width: 100%;
   height: auto;
 }
 
+/* ✅ 3D 캔버스가 잘리지 않도록 컨테이너 보강 */
+.greeting-image-div {
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-start;        /* 필요하면 center */
+  min-height: 600px;              /* 데스크톱 최소 높이 확보 */
+  overflow: visible;              /* 자르지 않음 */
+}
+
+/* ✅ <model-viewer> 기본 사이즈(세로 확정 → 프레이밍 안정화) */
+.greeting-image-div model-viewer {
+  width: 100%;
+  max-width: 560px;
+  height: 620px;
+  display: block;
+  margin: 48px auto 0;
+}
+
+/* 손흔들기 */
 .wave-emoji {
-  animation-duration: 1.8s;
-  animation-iteration-count: infinite;
-  animation-name: wave;
+  animation: wave 1.8s infinite;
   display: inline-block;
   transform-origin: 70% 70%;
 }
-
 @keyframes wave {
-  0% {
-    transform: rotate(0deg);
-  }
-  10% {
-    transform: rotate(-10deg);
-  }
-  20% {
-    transform: rotate(12deg);
-  }
-  30% {
-    transform: rotate(-10deg);
-  }
-  40% {
-    transform: rotate(9deg);
-  }
-  50% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(0deg);
-  }
+  0% { transform: rotate(0deg); }
+  10% { transform: rotate(-10deg); }
+  20% { transform: rotate(12deg); }
+  30% { transform: rotate(-10deg); }
+  40% { transform: rotate(9deg); }
+  50% { transform: rotate(0deg); }
+  100% { transform: rotate(0deg); }
 }
 
 /* Media Query */
 @media (max-width: 1380px) {
-  .greeting-text {
-    font-size: 50px;
-  }
-  .greeting-text-p {
-    font-size: 20px;
-  }
+  .greeting-text { font-size: 50px; }
+  .greeting-text-p { font-size: 20px; }
 }
+
 @media (max-width: 768px) {
-  .button-greeting-div {
-    justify-content: space-around;
-  }
-  .greeting-text {
-    font-size: 30px;
-    text-align: center;
-  }
-  .greeting-text-p {
-    font-size: 16px;
-    line-height: normal;
-    text-align: center;
-  }
-  .greeting-main {
-    display: block;
-  }
+  .button-greeting-div { justify-content: space-around; }
+  .greeting-text { font-size: 30px; text-align: center; }
+  .greeting-text-p { font-size: 16px; line-height: normal; text-align: center; }
+
+  .greeting-main { display: block; }
+
+  /* ⛔️ 기존 height:256px 삭제하고 유연하게 */
   .greeting-image-div {
-    height: 256px;
+    min-height: 420px;
+    height: auto;
+    justify-content: center;
+  }
+  .greeting-image-div model-viewer {
+    max-width: 400px;
+    height: 420px;
+    margin: 16px auto 0;
   }
 }
 
 @media (max-width: 320px) {
-  .main {
-    width: auto;
-  }
+  .main { width: auto; }
 }
