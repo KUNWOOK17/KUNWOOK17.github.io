@@ -1,5 +1,5 @@
-import React, { useContext } from "react";
-import { Fade } from "react-reveal";
+import React, {useContext} from "react";
+import {Fade} from "react-reveal";
 import emoji from "react-easy-emoji";
 import "./Greeting.scss";
 // ⛔️ 기존 Lottie 관련 import 제거
@@ -7,12 +7,12 @@ import "./Greeting.scss";
 // import DisplayLottie from "../../components/displayLottie/DisplayLottie";
 import SocialMedia from "../../components/socialMedia/SocialMedia";
 import Button from "../../components/button/Button";
-import { greeting } from "../../portfolio"; // illustration 제거
+import {greeting} from "../../portfolio"; // illustration 제거
 import StyleContext from "../../contexts/StyleContext";
 import HeroRobotModelViewer from "../../components/HeroRobotModelViewer";
 
 export default function Greeting() {
-  const { isDark } = useContext(StyleContext);
+  const {isDark} = useContext(StyleContext);
   if (!greeting.displayGreeting) return null;
 
   return (
@@ -22,12 +22,17 @@ export default function Greeting() {
           {/* 좌측 텍스트 */}
           <div className="greeting-text-div">
             <div>
-              <h1 className={isDark ? "dark-mode greeting-text" : "greeting-text"}>
-                {greeting.title} <span className="wave-emoji">{emoji("👋")}</span>
+              <h1
+                className={isDark ? "dark-mode greeting-text" : "greeting-text"}
+              >
+                {greeting.title}{" "}
+                <span className="wave-emoji">{emoji("👋")}</span>
               </h1>
               <p
                 className={
-                  isDark ? "dark-mode greeting-text-p" : "greeting-text-p subTitle"
+                  isDark
+                    ? "dark-mode greeting-text-p"
+                    : "greeting-text-p subTitle"
                 }
               >
                 {greeting.subTitle}
