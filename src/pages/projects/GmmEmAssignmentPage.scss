@@ -1,4 +1,9 @@
-/* 여기에 GmmEmAssignmentPage 컴포넌트를 꾸밀 CSS 코드를 작성하세요. */
+/* ------------------------------
+   GmmEmAssignmentPage 스타일
+   (기존 스타일 + 업로드 버튼 커스텀)
+---------------------------------*/
+
+/* 레이아웃 기본 */
 .gmm-page-container {
   padding: 50px;
   max-width: 900px;
@@ -24,6 +29,7 @@
   margin-bottom: 30px;
 }
 
+/* 제목 */
 h2 {
   font-size: 2rem;
   border-bottom: 2px solid #333;
@@ -31,10 +37,12 @@ h2 {
   margin-bottom: 20px;
 }
 
+/* 본문 */
 p {
   line-height: 1.6;
 }
 
+/* 뒤로가기 버튼 */
 .back-button {
   display: block;
   margin: 50px auto 20px;
@@ -46,7 +54,163 @@ p {
   cursor: pointer;
   font-size: 1rem;
 }
-
 .back-button:hover {
   background-color: #0056b3;
+}
+
+/* ---------------------------------
+   파일 업로드 (커스텀 라벨 버튼)
+----------------------------------*/
+.file-upload {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 18px 0 8px;
+  flex-wrap: wrap;
+}
+
+/* 기본 input[type=file] 시각적으로 숨김 (접근성 OK) */
+.file-upload input[type="file"] {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* 큼직한 업로드 버튼 라벨 */
+.file-upload .file-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1.1rem; /* 글자 크게 */
+  font-weight: 600;
+  padding: 0.9rem 1.4rem; /* 버튼 크게 */
+  border-radius: 12px;
+  cursor: pointer;
+  user-select: none;
+
+  /* 다크 배경과 잘 어울리는 톤 */
+  background: linear-gradient(180deg, #2b3241, #1f2533);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35);
+
+  transition: transform 120ms ease, box-shadow 120ms ease, background 120ms ease;
+}
+.file-upload .file-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.45);
+}
+.file-upload .file-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+}
+.file-upload .file-btn:focus-visible {
+  outline: 3px solid #7aa2ff; /* 키보드 접근성 */
+  outline-offset: 3px;
+}
+
+.file-upload .file-icon {
+  font-size: 1.3rem;
+  line-height: 1;
+}
+
+/* 선택한 파일명 표시 */
+.file-upload .file-name {
+  font-size: 0.98rem;
+  color: rgba(255, 255, 255, 0.8);
+  max-width: 60ch;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ---------------------------------
+   콘솔 출력(그래프/텍스트) 가독성
+----------------------------------*/
+.console-output {
+  display: block;
+  white-space: pre-wrap; /* 줄바꿈 보존 + 자동 줄바꿈 */
+  word-break: break-word;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", "Courier New", monospace;
+  font-size: 0.95rem;
+}
+/* 파이썬에서 base64로 찍히는 그래프 <img> 대응 */
+.console-output img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 0.6rem 0;
+  border-radius: 6px;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.25);
+}
+
+/* 코드 블록 기본 여백(선택) */
+pre {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  padding: 14px 16px;
+  overflow-x: auto;
+}
+
+/* 표 스타일 (5번 결론용) */
+.compare-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  font-size: 0.95rem;
+  text-align: center;
+  color: #eee;
+  background-color: #1b1b1b; /* 어두운 배경일 경우 */
+
+  th,
+  td {
+    border: 1px solid #444; /* ✅ 선 추가 */
+    padding: 10px 12px;
+    vertical-align: middle;
+  }
+
+  th {
+    background-color: #222; /* 헤더 강조 */
+    font-weight: 700;
+    color: #fff;
+  }
+
+  tr:nth-child(even) {
+    background-color: #2a2a2a; /* 짝수행 회색 */
+  }
+
+  tr:hover {
+    background-color: #333;
+    transition: 0.2s;
+  }
+}
+
+/* 표 전체를 감싸는 영역 */
+.table-wrapper {
+  margin: 1rem 0;
+  overflow-x: auto;
+  border: 1px solid #444;
+  border-radius: 8px;
+}
+
+/* 모바일 대응 */
+@media (max-width: 560px) {
+  .file-upload {
+    gap: 10px;
+  }
+  .file-upload .file-btn {
+    width: 100%;
+    justify-content: center;
+  }
+  .file-upload .file-name {
+    width: 100%;
+  }
 }
