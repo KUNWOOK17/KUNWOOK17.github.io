@@ -73,124 +73,120 @@ function GmmEmAssignmentPage({changePage}) {
 
   // 1) 네 GMM-EM 코드 (그대로 유지)
   const pythonCode = `
-import numpy as np, pandas as pd, matplotlib.pyplot as plt, io, base64
-# ... (생략 없이, 네가 보낸 GMM-EM 구현 그대로) ...
-# 아래는 네가 보낸 코드 원문과 동일 — 중략 없이 그대로 두세요
-# == 시작 ==
-import numpy as np
 import pandas as pd
+import numpy as np
 import matplotlib.pyplot as plt
-import io
-import base64
-def load_csv_2d(path):
-    df = pd.read_csv(path)
-    num_df = df.select_dtypes(include=['number'])
-    if num_df.shape[1] < 2:
-        df = pd.read_csv(path, sep=None, engine="python")
-        num_df = df.select_dtypes(include=['number'])
-    if num_df.shape[1] < 2:
-        raise ValueError("CSV에 숫자형 컬럼이 2개 이상 필요합니다.")
-    X = num_df.iloc[:, :2].to_numpy(dtype=float)
-    return X
-def gaussian_pdf(X, mean, cov):
-    D = X.shape[1]
-    L = np.linalg.cholesky(cov)
-    solve = np.linalg.solve(L, (X - mean).T)
-    quad = np.sum(solve**2, axis=0)
-    log_det = 2.0 * np.sum(np.log(np.diag(L)))
-    log_norm = -0.5 * (D * np.log(2 * np.pi) + log_det + quad)
-    return np.exp(log_norm)
-def log_likelihood(X, pis, mus, covs):
-    N, K = X.shape[0], mus.shape[0]
-    comp = np.zeros((N, K))
-    for k in range(K):
-        comp[:, k] = pis[k] * gaussian_pdf(X, mus[k], covs[k])
-    s = np.sum(comp, axis=1) + 1e-300
-    return np.sum(np.log(s))
-def e_step(X, pis, mus, covs):
-    N, K = X.shape[0], mus.shape[0]
-    resp = np.zeros((N, K))
-    for k in range(K):
-        resp[:, k] = pis[k] * gaussian_pdf(X, mus[k], covs[k])
-    resp_sum = resp.sum(axis=1, keepdims=True) + 1e-300
-    return resp / resp_sum
-def m_step(X, gamma, reg_covar=1e-6):
-    N, D = X.shape
-    K = gamma.shape[1]
-    Nk = gamma.sum(axis=0) + 1e-300
-    pis = Nk / N
-    mus = (gamma.T @ X) / Nk[:, None]
-    covs = np.zeros((K, D, D))
-    for k in range(K):
-        Xc = X - mus[k]
-        covs[k] = (Xc.T * gamma[:, k]) @ Xc / Nk[k]
-        covs[k].flat[:: D + 1] += reg_covar
-    return pis, mus, covs
-def gmm_em(X, K, max_iter=300, tol=1e-6, reg_covar=1e-6, seed=7, verbose=False):
-    N, D = X.shape
-    rng = np.random.default_rng(seed)
-    mus = X[rng.choice(N, size=K, replace=False)]
-    covs = np.array([np.cov(X.T) + reg_covar*np.eye(D) for _ in range(K)])
-    pis = np.ones(K) / K
-    ll_hist = []
-    for it in range(max_iter):
-        gamma = e_step(X, pis, mus, covs)
-        pis, mus, covs = m_step(X, gamma, reg_covar=reg_covar)
-        ll = log_likelihood(X, pis, mus, covs)
-        ll_hist.append(ll)
-        if it > 0 and abs(ll_hist[-1]-ll_hist[-2]) < tol:
-            break
-        labels = np.argmax(gamma, axis=1)
-    return {"pis": pis, "mus": mus, "covs": covs, "labels": labels,
-            "ll_hist": ll_hist, "n_iter": len(ll_hist)}
-def aic_bic(X, model):
-    N, D = X.shape
-    K = model["mus"].shape[0]
-    n_params = K*D + K*(D*(D+1)//2) + (K-1)
-    ll = model["ll_hist"][-1]
-    AIC = 2*n_params - 2*ll
-    BIC = n_params*np.log(N) - 2*ll
-    return AIC, BIC
-def plot_clusters(X, labels, mus, title):
-    fig, ax = plt.subplots(figsize=(5,4.3), dpi=120)
-    K = mus.shape[0]
-    for k in range(K):
-        m = labels==k
-        ax.scatter(X[m,0], X[m,1], s=10, alpha=0.7, label=f"cluster {k}")
-    ax.scatter(mus[:,0], mus[:,1], s=120, marker="X", edgecolor="k", linewidths=1, label="means")
-    ax.set_title(title); ax.set_xlabel("X1"); ax.set_ylabel("X2"); ax.legend(fontsize=8)
-    fig.tight_layout(); import io, base64; buf = io.BytesIO(); fig.savefig(buf, format="png"); buf.seek(0)
-    import base64 as b64; img_data = b64.b64encode(buf.getvalue()).decode(); plt.close(fig)
-    return f'<img src="data:image/png;base64,{img_data}" />'
-def plot_ll(ll_hist, title):
-    fig, ax = plt.subplots(figsize=(4.6,3.6), dpi=120)
-    ax.plot(ll_hist, lw=2); ax.set_xlabel("iteration"); ax.set_ylabel("log-likelihood"); ax.set_title(title)
-    fig.tight_layout(); import io; buf = io.BytesIO(); fig.savefig(buf, format="png"); buf.seek(0)
-    import base64 as b64; img_data = b64.b64encode(buf.getvalue()).decode(); plt.close(fig)
-    return f'<img src="data:image/png;base64,{img_data}" />'
-X = None
-try:
-    # 숫자형 첫 2열 자동 사용
-    df = pd.read_csv('FAA_AEDT_data.csv')
-    num_df = df.select_dtypes(include=['number'])
-    if num_df.shape[1] < 2:
-        df = pd.read_csv('FAA_AEDT_data.csv', sep=None, engine="python")
-        num_df = df.select_dtypes(include=['number'])
-    X = num_df.iloc[:, :2].to_numpy(dtype=float)
-    print("CSV 파일을 성공적으로 불러왔습니다.")
-    for K in [2,3,4,5]:
-        model = gmm_em(X, K, max_iter=300, tol=1e-6, reg_covar=1e-6, seed=7)
-        AIC, BIC = aic_bic(X, model)
-        ph = plot_clusters(X, model["labels"], model["mus"], f"GMM-EM (K={K})")
-        lh = plot_ll(model["ll_hist"], f"Log-likelihood (K={K}, iters={model['n_iter']})")
-        print(ph); print(lh)
-        print(f"K={K}: iters={model['n_iter']}, ll={model['ll_hist'][-1]:.3f}, AIC={AIC:.1f}, BIC={BIC:.1f}")
-    print("\\n=== Model selection (lower is better) ===")
-    # 간단 재계산
-    # (발표용 안내 메시지로 충분)
-except Exception as e:
-    print(f"오류가 발생했습니다: {e}")
-# == 끝 ==
+
+CSVdata = pd.read_csv('FAA_AEDT_data.csv')
+x = CSVdata[["x1", "x2"]].to_numpy()
+
+k = None
+np.random.seed(7)
+
+def main():
+    Ks = [2, 3, 4, 5]
+    fig, axes = plt.subplots(2, 2, figsize=(10, 9))
+    axes = axes.ravel()
+
+    for idx, K in enumerate(Ks):
+        run_for_k(K, axes[idx])
+
+    fig.suptitle("GMM with EM algorithm (K = 2,3,4,5)", y=0.98)
+    plt.tight_layout()
+    plt.show()
+
+def run_for_k(K, ax):
+    """K 값을 세팅하고 EM을 실행한 뒤, 해당 축(ax)에 시각화."""
+    global k
+    k = K
+    r = EM() 
+    visualization(r, ax, title=f"K = {K}")
+
+def EM():
+    r = initial()
+
+    r = iteration(r)
+
+    return r
+
+def initial() -> np.array:
+    _mu = np.zeros((k, 2))
+    _v  = np.zeros((k, 2, 2))
+
+    _index = np.random.randint(0, x.shape[0], k)
+    for i in range(k):
+        _mu[i] = x[_index[i]]
+        _v[i]  = np.eye(2)
+
+    _pi = np.full(k, 1.0 / k)
+    _r  = np.zeros((x.shape[0], k))
+
+    r = calculatePDF(_r, _pi, _mu, _v)
+    return r
+
+def calculatePDF(_r, _pi, _mu, _v):
+    for i in range(x.shape[0]):
+        _arr = np.zeros(k)
+        for j in range(k):
+            cov  = _v[j] + 1e-6 * np.eye(2)
+            diff = x[i] - _mu[j]
+            invS = np.linalg.inv(cov)
+            detS = np.linalg.det(cov)
+
+            f1 = 1.0 / ((2 * np.pi) * np.sqrt(detS))
+            quad = diff @ invS @ diff
+            f2 = -0.5 * quad
+
+            _pdf = f1 * np.exp(f2)
+            _arr[j] = _pdf
+
+        denom = np.dot(_pi, _arr) + 1e-300
+        for j in range(k):
+            _r[i, j] = (_pi[j] * _arr[j]) / denom
+
+    return _r
+
+def iteration(r: np.array) -> np.array:
+    _r = r
+    for _ in range(100):
+        _r = calculateprob(_r)
+    return _r
+
+def calculateprob(r: np.array) -> np.array:
+    _r = r.copy()
+    _pi = np.zeros(k)
+    _mu = np.zeros((k, 2))
+    _v  = np.zeros((k, 2, 2))
+
+    for i in range(k):
+        rsum = np.sum(_r[:, i]) + 1e-300
+
+        _pi[i] = rsum / x.shape[0]
+
+        xsum = np.zeros(2)
+        for j in range(x.shape[0]):
+            xsum += _r[j, i] * x[j]
+        _mu[i] = xsum / rsum
+
+        outer = np.zeros((2, 2))
+        for j in range(x.shape[0]):
+            diff = x[j] - _mu[i]
+            outer += _r[j, i] * np.outer(diff, diff)
+        _v[i] = outer / rsum
+
+    r_new = calculatePDF(_r, _pi, _mu, _v)
+    return r_new
+
+def visualization(r: np.array, ax, title="GMM with EM algorithm"):
+    labels = np.argmax(r, axis=1)
+    sc = ax.scatter(x[:, 0], x[:, 1], c=labels, cmap='tab10', s=15)
+    ax.set_xlabel("x1")
+    ax.set_ylabel("x2")
+    ax.set_title(title)
+
+if __name__ == "__main__":
+    main()
+
   `;
 
   // 4) 비교분석(KMEANS/DBSCAN/Sklearn GMM)
