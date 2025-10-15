@@ -54,7 +54,6 @@ function GmmEmAssignmentPage({changePage}) {
       if (fileOrNull) {
         const buf = new Uint8Array(await fileOrNull.arrayBuffer());
         pyodide.FS.writeFile("FAA_AEDT_data.csv", buf);
-        await new Promise(resolve => setTimeout(resolve, 200));
       }
 
       const captured = [];
@@ -78,14 +77,6 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import io, base64
-import os, time
-
-
-for _ in range(5):
-    if os.path.exists('FAA_AEDT_data.csv'):
-        break
-    time.sleep(0.2)
-
 
 CSVdata = pd.read_csv('FAA_AEDT_data.csv')
 x = CSVdata[["x1", "x2"]].to_numpy()
