@@ -1,6 +1,5 @@
 import React, {useState, useEffect} from "react";
 import "./GmmEmAssignmentPage.scss";
-
 import "katex/dist/katex.min.css";
 
 const PYODIDE_URL = "https://cdn.jsdelivr.net/pyodide/v0.25.0/full/pyodide.js";
@@ -10,7 +9,6 @@ function GmmEmAssignmentPage({changePage}) {
   const [loading, setLoading] = useState(true);
   const [fileName, setFileName] = useState("");
 
-  // 출력 상태: 1번(내 GMM) / 4번(비교분석)
   const [outGmmOwn, setOutGmmOwn] = useState("");
   const [outCompare, setOutCompare] = useState("");
   const [hasConclusion, setHasConclusion] = useState(false);
@@ -19,7 +17,6 @@ function GmmEmAssignmentPage({changePage}) {
   useEffect(() => {
     async function loadPyodideEnv() {
       const py = await window.loadPyodide();
-      // ✅ scikit-learn 포함
       await py.loadPackage([
         "numpy",
         "pandas",
@@ -40,43 +37,38 @@ function GmmEmAssignmentPage({changePage}) {
     }
   }, []);
 
-  // 공통 실행기(출력 캡처)
-  const runPython = async (code, fileOrNull, setOutput) => {
-    if (!pyodide) {
-      setOutput("Python 환경을 불러오는 중입니다.");
-      return;
-    }
+  // 공통 실행기
+  const runPython = async (code, fileOrNull) => {
+    if (!pyodide) return null;
     setLoading(true);
-    setOutput("코드를 실행 중입니다...");
-
     try {
-      // 파일 업로드(있을 때만)
       if (fileOrNull) {
         const buf = new Uint8Array(await fileOrNull.arrayBuffer());
         pyodide.FS.writeFile("FAA_AEDT_data.csv", buf);
+        // ✅ flush 대기
+        await new Promise(r => setTimeout(r, 200));
       }
-
-      const captured = [];
-      const origLog = console.log;
-      console.log = (...args) => captured.push(args.join(" "));
-
       await pyodide.runPythonAsync(code);
-
-      console.log = origLog;
-      setOutput(captured.join("\n"));
+      return pyodide;
     } catch (e) {
-      setOutput(`오류 발생:\n${e.message}`);
+      console.error("Python 실행 오류:", e);
+      return null;
     } finally {
       setLoading(false);
     }
   };
 
-  // 1) 네 GMM-EM 코드 (그대로 유지)
+  // 내 GMM 코드
   const pythonCode = `
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-import io, base64
+import io, base64, os, time
+
+for _ in range(5):
+    if os.path.exists('FAA_AEDT_data.csv'):
+        break
+    time.sleep(0.2)
 
 CSVdata = pd.read_csv('FAA_AEDT_data.csv')
 x = CSVdata[["x1", "x2"]].to_numpy()
@@ -97,12 +89,12 @@ def main():
     Ks = [2, 3, 4, 5]
     fig, axes = plt.subplots(2, 2, figsize=(10, 9))
     axes = axes.ravel()
-
     for idx, K in enumerate(Ks):
         run_for_k(K, axes[idx])
-
     fig.suptitle("GMM with EM algorithm (K = 2,3,4,5)", y=0.98)
-    print(img_from_fig(fig))
+    html = img_from_fig(fig)
+    global OUT_HTML_OWN
+    OUT_HTML_OWN = html
 
 def run_for_k(K, ax):
     global k
@@ -118,15 +110,12 @@ def EM():
 def initial() -> np.array:
     _mu = np.zeros((k, 2))
     _v  = np.zeros((k, 2, 2))
-
     _index = np.random.randint(0, x.shape[0], k)
     for i in range(k):
         _mu[i] = x[_index[i]]
         _v[i]  = np.eye(2)
-
     _pi = np.full(k, 1.0 / k)
     _r  = np.zeros((x.shape[0], k))
-
     r = calculatePDF(_r, _pi, _mu, _v)
     return r
 
@@ -142,7 +131,6 @@ def calculatePDF(_r, _pi, _mu, _v):
             quad = diff @ invS @ diff
             _pdf = f1 * np.exp(-0.5 * quad)
             _arr[j] = _pdf
-
         denom = np.dot(_pi, _arr) + 1e-300
         for j in range(k):
             _r[i, j] = (_pi[j] * _arr[j]) / denom
@@ -159,22 +147,18 @@ def calculateprob(r: np.array) -> np.array:
     _pi = np.zeros(k)
     _mu = np.zeros((k, 2))
     _v  = np.zeros((k, 2, 2))
-
     for i in range(k):
         rsum = np.sum(_r[:, i]) + 1e-300
         _pi[i] = rsum / x.shape[0]
-
         xsum = np.zeros(2)
         for j in range(x.shape[0]):
             xsum += _r[j, i] * x[j]
         _mu[i] = xsum / rsum
-
         outer = np.zeros((2, 2))
         for j in range(x.shape[0]):
             diff = x[j] - _mu[i]
             outer += _r[j, i] * np.outer(diff, diff)
         _v[i] = outer / rsum
-
     return calculatePDF(_r, _pi, _mu, _v)
 
 def visualization(r: np.array, ax, title="GMM with EM algorithm"):
@@ -186,24 +170,26 @@ def visualization(r: np.array, ax, title="GMM with EM algorithm"):
 
 if __name__ == "__main__":
     main()
-
   `;
 
-  // 4) 비교분석(KMEANS/DBSCAN/Sklearn GMM)
+  // 비교분석 코드
   const pythonCompareCode = `
-import numpy as np, pandas as pd, matplotlib.pyplot as plt, io, base64
+import numpy as np, pandas as pd, matplotlib.pyplot as plt, io, base64, json
 from sklearn.preprocessing import StandardScaler
 from sklearn.cluster import KMeans, DBSCAN
 from sklearn.mixture import GaussianMixture
 from sklearn.metrics import silhouette_score, calinski_harabasz_score
 
+def img_from_fig(fig):
+    buf = io.BytesIO(); fig.tight_layout()
+    fig.savefig(buf, format="png", dpi=120); buf.seek(0)
+    data = base64.b64encode(buf.getvalue()).decode()
+    plt.close(fig)
+    return f'<img src="data:image/png;base64,{data}" />'
+
 def load_xy(csv="FAA_AEDT_data.csv"):
     df = pd.read_csv(csv)
-    num = df.select_dtypes(include=['number'])
-    if num.shape[1] < 2:
-        df = pd.read_csv(csv, sep=None, engine="python")
-        num = df.select_dtypes(include=['number'])
-    X = num.iloc[:,:2].to_numpy(dtype=float)
+    X = df[["x1", "x2"]].to_numpy(dtype=float)
     Xs = StandardScaler().fit_transform(X)
     return Xs
 
@@ -217,88 +203,66 @@ def eval_labels(X, labels):
         K  =int(len(set(labels)) - (1 if -1 in labels else 0))
     )
 
-def img_from_fig(fig):
-    buf = io.BytesIO(); fig.tight_layout()
-    fig.savefig(buf, format="png", dpi=120); buf.seek(0)
-    data = base64.b64encode(buf.getvalue()).decode()
-    plt.close(fig)
-    return f'<img src="data:image/png;base64,{data}" />'
-
 X = load_xy("FAA_AEDT_data.csv")
 rows = []
 
-# 1) KMEANS K=2..5
 fig1, axes1 = plt.subplots(2,2, figsize=(10,10))
 axes1 = axes1.ravel()
 for i,K in enumerate([2,3,4,5]):
     km = KMeans(n_clusters=K, n_init="auto", random_state=42).fit(X)
     lab = km.labels_
     m = eval_labels(X, lab)
-    rows.append(dict(model="KMeans", K=K, sil=m["sil"], CH=m["ch"], AIC=np.nan, BIC=np.nan, loglik=np.nan))
+    rows.append(dict(model="KMeans", K=K, sil=m["sil"], CH=m["ch"]))
     ax = axes1[i]; ax.scatter(X[:,0], X[:,1], c=lab, s=10, cmap="tab10")
-    ax.set_title(f"KMeans K={K} | Sil={m['sil']:.3f} | CH={m['ch']:.0f}")
-print(img_from_fig(fig1))
+    ax.set_title(f"KMeans K={K} | Sil={m['sil']:.3f}")
+html1 = img_from_fig(fig1)
 
-# 2) GMM(sklearn) K=2..5
 fig2, axes2 = plt.subplots(2,2, figsize=(10,10))
 axes2 = axes2.ravel()
 for i,K in enumerate([2,3,4,5]):
-    gm = GaussianMixture(n_components=K, covariance_type="full",
-                         reg_covar=1e-6, max_iter=500, tol=1e-4,
-                         random_state=42).fit(X)
+    gm = GaussianMixture(n_components=K, random_state=42).fit(X)
     lab = gm.predict(X)
-    ll = float(gm.score(X)*X.shape[0])
-    aic = float(gm.aic(X)); bic = float(gm.bic(X))
     m = eval_labels(X, lab)
-    rows.append(dict(model="GMM(full)", K=K, sil=m["sil"], CH=m["ch"], AIC=aic, BIC=bic, loglik=ll))
     ax = axes2[i]; ax.scatter(X[:,0], X[:,1], c=lab, s=10, cmap="tab10")
-    ax.set_title(f"GMM K={K} | BIC={bic:.1f} | Sil={m['sil']:.3f}")
-print(img_from_fig(fig2))
+    ax.set_title(f"GMM K={K} | Sil={m['sil']:.3f}")
+html2 = img_from_fig(fig2)
 
-# 3) DBSCAN (grid)
-db_grid = [(0.2,5),(0.3,5),(0.5,5),(0.3,10)]
-best = []
-for eps, mp in db_grid:
-    db = DBSCAN(eps=eps, min_samples=mp).fit(X)
-    lab = db.labels_; m = eval_labels(X, lab)
-    rows.append(dict(model=f"DBSCAN(eps={eps},min={mp})", K=m["K"], sil=m["sil"], CH=m["ch"], AIC=np.nan, BIC=np.nan, loglik=np.nan))
-# 상위 4개만 시각화
-top = sorted([r for r in rows if str(r["model"]).startswith("DBSCAN")], key=lambda r: (np.nan_to_num(r["sil"], nan=-1.0)), reverse=True)[:4]
 fig3, axes3 = plt.subplots(2,2, figsize=(10,10))
 axes3 = axes3.ravel()
-for i, r in enumerate(top):
-    eps = float(r["model"].split("eps=")[1].split(",")[0])
-    mp  = int(r["model"].split("min=")[1].split(")")[0])
-    lab = DBSCAN(eps=eps, min_samples=mp).fit(X).labels_
+for i,(eps, mp) in enumerate([(0.2,5),(0.3,5),(0.5,5),(0.3,10)]):
+    db = DBSCAN(eps=eps, min_samples=mp).fit(X)
+    lab = db.labels_
+    m = eval_labels(X, lab)
     ax = axes3[i]; ax.scatter(X[:,0], X[:,1], c=lab, s=10, cmap="tab10")
-    ax.set_title(f"DBSCAN eps={eps}, min={mp} | K={r['K']} | Sil={r['sil']:.3f}")
-print(img_from_fig(fig3))
+    ax.set_title(f"DBSCAN eps={eps}, min={mp} | Sil={m['sil']:.3f}")
+html3 = img_from_fig(fig3)
 
-# 표 출력
-df = pd.DataFrame(rows)
-df_sorted = df.sort_values(by=["model","BIC","sil"], ascending=[True, True, False])
-print("\\n=== Benchmark Summary (KMeans / DBSCAN / GMM) ===")
-print(df_sorted.to_string(index=False))
-print("\\n표(HTML):")
-print(df_sorted.to_html(index=False))
+global OUT_HTML_COMPARE
+OUT_HTML_COMPARE = json.dumps([html1, html2, html3])
   `;
 
-  // 업로드 → 1번, 4번 순차 실행
+  // 파일 업로드 처리
   const handleFileChange = async e => {
     const file = e.target.files[0];
-    if (!file) {
-      setFileName("");
-      setOutGmmOwn("");
-      setOutCompare("");
-      setHasConclusion(false);
-      return;
-    }
+    if (!file) return;
     setFileName(file.name);
     setHasConclusion(false);
-    // 1) 내 GMM
-    await runPython(pythonCode, file, setOutGmmOwn);
-    // 4) 비교분석
-    await runPython(pythonCompareCode, null, setOutCompare);
+
+    // 1) 내 GMM 실행
+    const py1 = await runPython(pythonCode, file);
+    const htmlOwn = py1?.globals.get("OUT_HTML_OWN");
+    setOutGmmOwn(htmlOwn || "이미지를 생성하지 못했습니다.");
+
+    // 2) 비교분석 실행
+    const py2 = await runPython(pythonCompareCode, null);
+    const htmlCompare = py2?.globals.get("OUT_HTML_COMPARE");
+    try {
+      const imgs = JSON.parse(htmlCompare || "[]");
+      setOutCompare(imgs.join("<br/>"));
+    } catch {
+      setOutCompare("비교 결과를 표시하지 못했습니다.");
+    }
+
     setHasConclusion(true);
   };
 
@@ -312,13 +276,8 @@ print(df_sorted.to_html(index=False))
       </div>
 
       <div className="gmm-content">
-        {/* 1. 실행하기 */}
         <section className="gmm-section">
           <h2>1. 실행하기</h2>
-          <p>
-            브라우저에서 직접 Python 코드를 실행합니다. CSV 파일을 업로드하면 ①
-            내 GMM과 ② 비교분석을 순서대로 실행합니다.
-          </p>
           <div className="file-upload">
             <input
               id="csvUpload"
@@ -326,58 +285,35 @@ print(df_sorted.to_html(index=False))
               accept=".csv"
               onChange={handleFileChange}
             />
-            <label className="file-btn" htmlFor="csvUpload" role="button">
-              <span className="file-icon" aria-hidden>
-                📁
-              </span>{" "}
-              CSV 업로드
+            <label className="file-btn" htmlFor="csvUpload">
+              📁 CSV 업로드
             </label>
             <span className="file-name">{fileName || "선택된 파일 없음"}</span>
           </div>
           {loading && <p>데이터를 로드하고 코드를 실행 중입니다...</p>}
         </section>
 
-        {/* 2. 알고리즘 구현(내 GMM 코드) */}
-        <section className="gmm-section">
-          <h2>2. 알고리즘 구현</h2>
-          <p>본 프로젝트에 사용된 GMM-EM 알고리즘의 핵심 구현 코드입니다.</p>
-          <pre>
-            <code className="python-code">{pythonCode}</code>
-          </pre>
-        </section>
-
-        {/* 1번 실행 결과 콘솔 */}
         <section className="gmm-section">
           <h2>실행 결과 (1번: 내 GMM)</h2>
-          <pre>
-            <code
-              className="console-output"
-              dangerouslySetInnerHTML={{
-                __html: outGmmOwn || "CSV 업로드 후 결과가 표시됩니다."
-              }}
-            />
-          </pre>
+          <div
+            className="console-output"
+            dangerouslySetInnerHTML={{
+              __html: outGmmOwn || "CSV 업로드 후 결과가 표시됩니다."
+            }}
+          />
         </section>
 
-        {/* 3. 코드 비교분석 */}
         <section className="gmm-section">
           <h2>3. 코드 비교분석 (K-MEANS / DBSCAN / GMM)</h2>
-          <p>
-            동일 CSV로 K-MEANS, DBSCAN, GMM(sklearn)을 비교하여 시각화와
-            지표(실루엣/CH, GMM의 AIC/BIC)를 출력합니다.
-          </p>
-          <pre>
-            <code
-              className="console-output"
-              dangerouslySetInnerHTML={{
-                __html: outCompare || "CSV 업로드 후 결과가 표시됩니다."
-              }}
-            />
-          </pre>
+          <div
+            className="console-output"
+            dangerouslySetInnerHTML={{
+              __html: outCompare || "CSV 업로드 후 결과가 표시됩니다."
+            }}
+          />
         </section>
       </div>
 
-      <h2>4. 결론 — 어떤 기법이 가장 적합했는가?</h2>
       {hasConclusion && (
         <section className="gmm-section">
           <p>
