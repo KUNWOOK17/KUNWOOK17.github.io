@@ -65,19 +65,19 @@ import numpy as np
 import matplotlib.pyplot as plt
 import io, base64, os, time
 
-# CSV 파일이 확실히 준비될 때까지 대기 (GitHub Pages용 안정성 패치)
+
 for _ in range(5):
     if os.path.exists('FAA_AEDT_data.csv'):
         break
     time.sleep(0.2)
 
-# ====== 데이터 로드 ======
+
 CSVdata = pd.read_csv('FAA_AEDT_data.csv')
 x = CSVdata[["x1", "x2"]].to_numpy()
 
-# ====== GMM-EM 알고리즘 ======
+
 def main():
-    Ks = [2, 3, 4, 5]  # ✅ 고정된 K 리스트
+    Ks = [2, 3, 4, 5]
     fig, axes = plt.subplots(2, 2, figsize=(10, 9))
     axes = axes.ravel()
 
@@ -86,7 +86,6 @@ def main():
 
     fig.suptitle("GMM with EM algorithm (K = 2,3,4,5)", y=0.98)
 
-    # ✅ base64로 변환 → HTML <img>로 React에 렌더링 가능
     buf = io.BytesIO()
     fig.tight_layout()
     fig.savefig(buf, format="png", dpi=120)
@@ -116,7 +115,6 @@ def initial() -> np.array:
     _mu = np.zeros((k,2))
     _v = np.zeros((k,2,2))
 
-    # 무작위 초기화 (seed 없음 → 매번 다른 결과)
     _index = np.random.randint(0, x.shape[0], k)
     for i in range(k):
         _mu[i] = x[_index[i]]
@@ -176,7 +174,6 @@ def calculateprob(r : np.array) -> np.array:
     r = calculatePDF(_r, _pi, _mu, _v)
     return r
 
-# ====== 실행 ======
 main()
 
   `;
@@ -313,7 +310,7 @@ OUT_HTML_COMPARE = json.dumps([html1, html2, html3])
         </section>
 
         <section className="gmm-section">
-          <h2>3. 코드 비교분석 (K-MEANS / DBSCAN / GMM)</h2>
+          <h2>2. 코드 비교분석 (K-MEANS / DBSCAN / GMM)</h2>
           <div
             className="console-output"
             dangerouslySetInnerHTML={{
