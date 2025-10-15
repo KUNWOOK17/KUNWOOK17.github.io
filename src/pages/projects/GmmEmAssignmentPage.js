@@ -65,42 +65,47 @@ import numpy as np
 import matplotlib.pyplot as plt
 import io, base64, os, time
 
+# CSV 파일이 확실히 준비될 때까지 대기 (GitHub Pages용 안정성 패치)
 for _ in range(5):
     if os.path.exists('FAA_AEDT_data.csv'):
         break
     time.sleep(0.2)
 
+# ====== 데이터 로드 ======
 CSVdata = pd.read_csv('FAA_AEDT_data.csv')
 x = CSVdata[["x1", "x2"]].to_numpy()
 
-k = None
-np.random.seed(7)
+# ====== GMM-EM 알고리즘 ======
+def main():
+    Ks = [2, 3, 4, 5]  # ✅ 고정된 K 리스트
+    fig, axes = plt.subplots(2, 2, figsize=(10, 9))
+    axes = axes.ravel()
 
-def img_from_fig(fig):
+    for idx, K in enumerate(Ks):
+        run_em_for_k(K, axes[idx])
+
+    fig.suptitle("GMM with EM algorithm (K = 2,3,4,5)", y=0.98)
+
+    # ✅ base64로 변환 → HTML <img>로 React에 렌더링 가능
     buf = io.BytesIO()
     fig.tight_layout()
     fig.savefig(buf, format="png", dpi=120)
     buf.seek(0)
     data = base64.b64encode(buf.getvalue()).decode()
     plt.close(fig)
-    return f'<img src="data:image/png;base64,{data}" />'
 
-def main():
-    Ks = [2, 3, 4, 5]
-    fig, axes = plt.subplots(2, 2, figsize=(10, 9))
-    axes = axes.ravel()
-    for idx, K in enumerate(Ks):
-        run_for_k(K, axes[idx])
-    fig.suptitle("GMM with EM algorithm (K = 2,3,4,5)", y=0.98)
-    html = img_from_fig(fig)
     global OUT_HTML_OWN
-    OUT_HTML_OWN = html
+    OUT_HTML_OWN = f'<img src="data:image/png;base64,{data}" />'
 
-def run_for_k(K, ax):
+def run_em_for_k(K, ax):
     global k
     k = K
     r = EM()
-    visualization(r, ax, title=f"K = {K}")
+    labels = np.argmax(r, axis=1)
+    ax.scatter(x[:, 0], x[:, 1], c=labels, cmap='tab10', s=20)
+    ax.set_title(f"K = {K}")
+    ax.set_xlabel("x1")
+    ax.set_ylabel("x2")
 
 def EM():
     r = initial()
@@ -108,14 +113,18 @@ def EM():
     return r
 
 def initial() -> np.array:
-    _mu = np.zeros((k, 2))
-    _v  = np.zeros((k, 2, 2))
+    _mu = np.zeros((k,2))
+    _v = np.zeros((k,2,2))
+
+    # 무작위 초기화 (seed 없음 → 매번 다른 결과)
     _index = np.random.randint(0, x.shape[0], k)
     for i in range(k):
         _mu[i] = x[_index[i]]
-        _v[i]  = np.eye(2)
-    _pi = np.full(k, 1.0 / k)
-    _r  = np.zeros((x.shape[0], k))
+        _v[i] = np.eye(2)
+
+    _pi = np.full(k, 1 / k)
+    _r = np.zeros((x.shape[0], k))
+
     r = calculatePDF(_r, _pi, _mu, _v)
     return r
 
@@ -123,53 +132,53 @@ def calculatePDF(_r, _pi, _mu, _v):
     for i in range(x.shape[0]):
         _arr = np.zeros(k)
         for j in range(k):
-            cov  = _v[j] + 1e-6 * np.eye(2)
+            cov = _v[j] + 1e-6 * np.eye(2)
             diff = x[i] - _mu[j]
             invS = np.linalg.inv(cov)
-            detS = np.linalg.det(cov)
-            f1 = 1.0 / ((2 * np.pi) * np.sqrt(detS))
+            detsS = np.linalg.det(cov)
+            f1 = 1.0 / ((2 * np.pi) * np.sqrt(detsS))
             quad = diff @ invS @ diff
-            _pdf = f1 * np.exp(-0.5 * quad)
+            f2 = -0.5 * quad
+            _pdf = f1 * np.exp(f2)
             _arr[j] = _pdf
-        denom = np.dot(_pi, _arr) + 1e-300
+
+        _sum = np.dot(_pi, _arr)
         for j in range(k):
-            _r[i, j] = (_pi[j] * _arr[j]) / denom
+            _r[i,j] = (_pi[j] * _arr[j]) / _sum
     return _r
 
 def iteration(r: np.array) -> np.array:
     _r = r
-    for _ in range(100):
+    for i in range(100):
         _r = calculateprob(_r)
     return _r
 
-def calculateprob(r: np.array) -> np.array:
-    _r = r.copy()
+def calculateprob(r : np.array) -> np.array:
+    _r = r
     _pi = np.zeros(k)
-    _mu = np.zeros((k, 2))
-    _v  = np.zeros((k, 2, 2))
+    _mu = np.zeros((k,2))
+    _v = np.zeros((k,2,2))
+
     for i in range(k):
-        rsum = np.sum(_r[:, i]) + 1e-300
-        _pi[i] = rsum / x.shape[0]
-        xsum = np.zeros(2)
+        _rsum = np.sum(_r[:, i])
+        _pi[i] = _rsum / x.shape[0]
+        _xsum = np.zeros(2)
         for j in range(x.shape[0]):
-            xsum += _r[j, i] * x[j]
-        _mu[i] = xsum / rsum
-        outer = np.zeros((2, 2))
+            _xsum += _r[j,i] * x[j]
+        _mu[i] = _xsum / _rsum
+
+        _outer = np.zeros((2,2))
         for j in range(x.shape[0]):
-            diff = x[j] - _mu[i]
-            outer += _r[j, i] * np.outer(diff, diff)
-        _v[i] = outer / rsum
-    return calculatePDF(_r, _pi, _mu, _v)
+            _diff = x[j] - _mu[i]
+            _outer += _r[j,i] * np.outer(_diff, _diff)
+        _v[i] = _outer / _rsum
 
-def visualization(r: np.array, ax, title="GMM with EM algorithm"):
-    labels = np.argmax(r, axis=1)
-    ax.scatter(x[:, 0], x[:, 1], c=labels, cmap='tab10', s=15)
-    ax.set_xlabel("x1")
-    ax.set_ylabel("x2")
-    ax.set_title(title)
+    r = calculatePDF(_r, _pi, _mu, _v)
+    return r
 
-if __name__ == "__main__":
-    main()
+# ====== 실행 ======
+main()
+
   `;
 
   // 비교분석 코드
