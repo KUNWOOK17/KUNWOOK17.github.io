@@ -353,12 +353,18 @@ const blogSection = {
     {
       // ✅ 외부 링크 대신 내부 경로를 지정합니다.
       route: "gmm-em-assignment",
-      title: "GMM with EM Algorithm",
+      title: "Project1 - GMM with EM Algorithm",
+      description: "과제 상세 페이지로 이동합니다."
+    },
+    {
+      route: "gmm-em-assignment",
+      title: "Project2 - Clustering Flight Trajectories using HDBSCAN",
       description: "과제 상세 페이지로 이동합니다."
     }
   ],
-  display: true
+  display: true,
 };
+
 
 // ... 나머지 코드
 
