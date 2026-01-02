@@ -6,31 +6,47 @@
     url("./assets/fonts/Agustina.woff") format("woff");
   font-display: swap;
 }
+
 @font-face {
   font-family: "Montserrat";
   src: local("Montserrat"),
     url("./assets/fonts/Montserrat-Regular.ttf") format("woff");
   font-display: swap;
 }
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+/* ✅ 여기부터 핵심 */
 html,
 body {
-  scroll-behavior: smooth;
-}
-body {
   margin: 0;
+  padding: 0;
+  height: 100%;
+  scroll-behavior: smooth;
+  background-color: #0b1220; /* ← 사이트 다크 배경색 */
+  overscroll-behavior: none; /* 바운스 스크롤 방지 */
+}
+
+body {
   font: 19px / 23px Montserrat, "Montserrat", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+/* React root */
+#root {
+  min-height: 100vh;
+  background-color: #0b1220;
+}
+
 /* Media Query */
 @media (max-width: 1380px) {
   html,
   body {
-    font-size: rem;
+    font-size: 1rem; 
     line-height: normal;
   }
 }
