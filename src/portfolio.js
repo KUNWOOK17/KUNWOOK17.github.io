@@ -352,7 +352,6 @@ const achievementSection = {
   // display: true // Set false to hide this section, defaults to true
 };
 
-
 const blogSection = {
   // title: "Assignment",
   // subtitle:
@@ -371,9 +370,8 @@ const blogSection = {
     //   description: "과제 상세 페이지로 이동합니다."
     // }
   ],
-  display: true,
+  display: true
 };
-
 
 // ... 나머지 코드
 
