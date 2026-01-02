@@ -150,6 +150,17 @@ const educationInfo = {
         "Learned robot programming methods using the latest ROS framework",
         "Applied solutions utilizing key computer vision algorithms"
       ]
+    },
+    {
+      schoolName: "Sejong University",
+      logo: require("./assets/images/AIrobotimage.png"),
+      subHeader: "Undergraduate Researcher, AI Robotics",
+      duration: "January 2026 - Present",
+      descBullets: [
+        "Undergraduate researcher under the supervision of Prof. Seonghan Kim in the Department of Artificial Intelligence Robotics",
+        "Researching autonomous mobility control with a focus on LiDAR- and camera-based environment perception",
+        "Studying intelligent control and motor control techniques for autonomous robotic and mobility systems"
+      ]
     }
   ]
 };
@@ -341,26 +352,24 @@ const achievementSection = {
   // display: true // Set false to hide this section, defaults to true
 };
 
-// Blogs Section
-// src/portfolio.js
 
 const blogSection = {
-  title: "Assignment",
-  subtitle:
-    "Clustering of Aviation Data Using the Gaussian Mixture Model (GMM) and Expectation-Maximization (EM) Algorithm",
-  displayMediumBlogs: "true",
+  // title: "Assignment",
+  // subtitle:
+  //   "Clustering of Aviation Data Using the Gaussian Mixture Model (GMM) and Expectation-Maximization (EM) Algorithm",
+  displayMediumBlogs: "false",
   blogs: [
-    {
-      // ✅ 외부 링크 대신 내부 경로를 지정합니다.
-      route: "gmm-em-assignment",
-      title: "Project1 - GMM with EM Algorithm",
-      description: "과제 상세 페이지로 이동합니다."
-    },
-    {
-      route: "gmm-em-assignment",
-      title: "Project2 - Clustering Flight Trajectories using HDBSCAN",
-      description: "과제 상세 페이지로 이동합니다."
-    }
+    // {
+    //   // ✅ 외부 링크 대신 내부 경로를 지정합니다.
+    //   route: "gmm-em-assignment",
+    //   title: "Project1 - GMM with EM Algorithm",
+    //   description: "과제 상세 페이지로 이동합니다."
+    // },
+    // {
+    //   route: "gmm-em-assignment",
+    //   title: "Project2 - Clustering Flight Trajectories using HDBSCAN",
+    //   description: "과제 상세 페이지로 이동합니다."
+    // }
   ],
   display: true,
 };
