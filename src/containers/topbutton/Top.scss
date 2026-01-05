@@ -11,12 +11,45 @@
   background-color: $buttonColor;
   color: white;
   cursor: pointer;
+
+  /* 기존 데스크탑 스타일 */
   padding: 15px;
   border-radius: 15px;
   font-size: 25px;
+
+  /* 부드러운 등장/클릭 (Top.js에서 opacity 제어하니까 같이 어울림) */
+  transition: opacity 0.2s ease-in-out, transform 0.2s ease-in-out,
+    background-color 0.2s ease-in-out;
 }
 
 #topButton:hover {
   background-color: $topButtonHover;
-  transition: all ease-in-out 0.2s;
+}
+
+/* =========================
+   Mobile: 작은 우하단 Floating 버튼
+   ========================= */
+@media (max-width: 768px) {
+  #topButton {
+    right: 14px;
+    bottom: calc(14px + env(safe-area-inset-bottom)); /* iPhone 하단 UI 안전 */
+
+    width: 48px;
+    height: 48px;
+    padding: 0;              /* ✅ 모바일에서 padding 제거 */
+    border-radius: 999px;    /* ✅ 완전 동그랗게 */
+
+    font-size: 20px;         /* 아이콘 크기 줄이기 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.35);
+  }
+
+  /* 아이콘이 너무 크면 추가로 줄이기 */
+  #topButton i {
+    font-size: 20px;
+    line-height: 1;
+  }
 }
