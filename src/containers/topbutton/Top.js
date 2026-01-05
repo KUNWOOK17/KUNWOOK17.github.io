@@ -5,6 +5,7 @@ import "./Top.scss";
 export default function Top() {
   // 맨 위로
   function TopEvent() {
+    alert("TOP CLICKED");
     window.scrollTo({top: 0, behavior: "smooth"});
   }
 
