@@ -28,6 +28,7 @@ body {
   scroll-behavior: smooth;
   background-color: #0b1220; /* ← 사이트 다크 배경색 */
   overscroll-behavior: none; /* 바운스 스크롤 방지 */
+  overflow-x: hidden;
 }
 
 body {
@@ -38,7 +39,7 @@ body {
 
 /* React root */
 #root {
-  min-height: 100vh;
+  min-height: calc(100vh - 1px);
   background-color: #0b1220;
 }
 
