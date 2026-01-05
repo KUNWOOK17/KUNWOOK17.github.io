@@ -5,8 +5,22 @@ import "./Top.scss";
 export default function Top() {
   // 맨 위로
   function TopEvent() {
-    alert("TOP CLICKED");
-    window.scrollTo({top: 0, behavior: "smooth"});
+    const opts = { top: 0, left: 0, behavior: "smooth" };
+
+    // 1) 일반적인 경우
+    window.scrollTo(opts);
+
+    // 2) iOS/브라우저별 보정
+    document.documentElement.scrollTo(opts);
+    document.body.scrollTo(opts);
+
+    // 3) 앱이 특정 컨테이너에서 스크롤되는 경우(매우 흔함)
+    const root = document.getElementById("root");
+    if (root) root.scrollTo(opts);
+
+    // 4) 혹시 실제 스크롤 컨테이너가 따로 있다면(가장 확실)
+    const scroller = document.querySelector("[data-scroll-container]");
+    if (scroller) scroller.scrollTo(opts);
   }
 
   // 버튼 표시/숨김
