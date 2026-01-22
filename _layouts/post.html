@@ -1,0 +1,17 @@
+---
+layout: default
+---
+
+<div class="post-layout {% if page.narrow %}post-layout--narrow{% endif %}">
+  <article class="post-content">
+    {{ content }}
+  </article>
+
+  <aside class="post-toc">
+    <div class="toc-title">contexts</div>
+    <nav id="toc"></nav>
+  </aside>
+</div>
+
+
+<script src="/assets/js/toc.js"></script>

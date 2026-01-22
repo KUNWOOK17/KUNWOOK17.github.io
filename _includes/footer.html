@@ -1,0 +1,38 @@
+<footer class="site-footer h-card">
+  <div class="wrapper">
+    <div class="footer-panels">
+    <div class="footer-panel">
+        <h3>AI 연구소</h3>
+        <p>로봇/자율주행/비전 학습 기록을 공유합니다.</p>
+    </div>
+
+    <div class="footer-panel">
+        <h3>카테고리</h3>
+        <ul>
+        <li><a href="/categories/">AI</a></li>
+        <li><a href="/categories/">ROS2</a></li>
+        <li><a href="/categories/">Vision</a></li>
+        </ul>
+    </div>
+
+    <div class="footer-panel">
+        <h3>최근 포스트</h3>
+        <ul>
+        {% for post in site.posts limit:5 %}
+            <li><a href="{{ post.url | relative_url }}">{{ post.title }}</a></li>
+        {% endfor %}
+        </ul>
+    </div>
+
+    <div class="footer-panel">
+        <h3>정보</h3>
+        <ul>
+        <li><a href="/about/">소개</a></li>
+        <li><a href="/archive/">아카이브</a></li>
+
+        </ul>
+    </div>
+    </div>
+
+  </div>
+</footer>

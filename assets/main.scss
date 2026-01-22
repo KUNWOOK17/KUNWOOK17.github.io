@@ -1,0 +1,1148 @@
+---
+---
+@import "minima";
+
+/* =========================================================
+   0) Global variables & layout stability
+   ========================================================= */
+:root {
+  --site-max: 1200px;      /* 헤더/푸터 기본 최대 폭 */
+  --content-max: 880px;    /* 본문/소개 페이지 가독성 폭 */
+  --gap: 0.25rem;
+  --radius: 10px;
+  --border: #e5e5e5;
+  --hover-bg: rgba(0, 0, 0, 0.05);
+  --active-bg: rgba(0, 0, 0, 0.08);
+  --accent: #3b82f6;
+  --accent-soft: #5b7cfa;
+  --text: #111;
+  --muted: #475569;
+}
+
+/* 페이지마다 스크롤바 유무로 좌/우 "살짝 밀림" 방지 */
+html {
+  scrollbar-gutter: stable;
+}
+body {
+  overflow-y: scroll;
+}
+
+/* =========================================================
+   1) Fonts (Korean: SUIT / Latin: PretendardLatin)
+   ========================================================= */
+
+/* ----- Korean Font: SUIT ----- */
+@font-face {
+  font-family: "SUIT";
+  src: url("/assets/fonts/suit/SUIT-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "SUIT";
+  src: url("/assets/fonts/suit/SUIT-Medium.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "SUIT";
+  src: url("/assets/fonts/suit/SUIT-SemiBold.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "SUIT";
+  src: url("/assets/fonts/suit/SUIT-Bold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ----- Latin Font: PretendardLatin (영문/라틴 범위만 적용) ----- */
+@font-face {
+  font-family: "PretendardLatin";
+  src: url("/assets/fonts/pretendard/Pretendard-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0100-024F, U+1E00-1EFF;
+}
+@font-face {
+  font-family: "PretendardLatin";
+  src: url("/assets/fonts/pretendard/Pretendard-Bold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0100-024F, U+1E00-1EFF;
+}
+@font-face {
+  font-family: "PretendardLatin";
+  src: url("/assets/fonts/pretendard/Pretendard-ExtraBold.woff2") format("woff2");
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0100-024F, U+1E00-1EFF;
+}
+
+/* 기본 폰트 스택: 한글은 SUIT, 영문은 PretendardLatin이 자동 적용 */
+body {
+  font-family: "SUIT", "PretendardLatin", system-ui, -apple-system, sans-serif;
+  font-weight: 400;
+  color: var(--text);
+}
+
+/* =========================================================
+   2) Width system (minima uses .wrapper)
+   - 헤더/푸터는 넓게
+   - 본문은 가독성 폭으로
+   ========================================================= */
+
+/* 헤더/푸터 wrapper는 넓게 */
+.site-header .wrapper,
+.site-footer .wrapper {
+  max-width: var(--site-max);
+}
+
+/* 본문 wrapper는 가독성 폭으로 (홈/포스트도 여기 적용) */
+.page-content .wrapper {
+  max-width: var(--content-max);
+}
+
+/* =========================================================
+   3) Header: Title left, Nav centered (minima-safe)
+   ========================================================= */
+
+/* 헤더 전체 */
+.site-header {
+  border-top: none;
+  border-bottom: 1px solid var(--border);
+}
+
+/* 헤더 wrapper를 grid로: [타이틀][메뉴 영역][우측 여유/확장] */
+.site-header .wrapper {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+}
+
+/* ----- Site title (logo + text) ----- */
+.site-title {
+  justify-self: start;
+  margin-right: 2rem;
+
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+
+  font-weight: 700;
+  letter-spacing: -0.02em;
+
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+.site-title:hover {
+  text-decoration: none;
+  color: var(--accent);
+}
+
+/* 로고 이미지 */
+.site-logo {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* ----- Nav positioning ----- */
+.site-nav {
+  justify-self: center;
+  float: none; /* minima 기본 float 제거 */
+}
+
+/* minima의 실제 링크 컨테이너: .trigger */
+.site-nav .trigger {
+  display: flex;
+  align-items: center;
+  gap: var(--gap);
+  flex-wrap: wrap;
+}
+
+/* 링크 기본 스타일 */
+.site-nav .page-link {
+  margin: 0 0.75rem;
+  font-size: 0.95rem;
+
+  text-decoration: none;
+  padding: 6px 12px;
+  border-radius: var(--radius);
+
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+/* hover: 밑줄 대신 은은한 배경 */
+.site-nav .page-link:hover {
+  text-decoration: none;
+  background-color: var(--hover-bg);
+}
+
+/* 현재 페이지 표시 */
+.site-nav .page-link.active,
+.site-nav .page-link[aria-current="page"] {
+  background-color: var(--active-bg);
+  font-weight: 600;
+}
+
+/* =========================================================
+   4) Navigation Icons (emoji)
+   ========================================================= */
+.site-nav .page-link::before {
+  margin-right: 6px;
+  font-size: 0.95em;
+}
+
+/* 홈 */
+.site-nav .page-link[href="/"]::before {
+  content: "🏠";
+}
+/* 소개 */
+.site-nav .page-link[href^="/about"]::before {
+  content: "👤";
+}
+/* 아카이브 */
+.site-nav .page-link[href^="/archive"]::before {
+  content: "🗂";
+}
+/* 카테고리 */
+.site-nav .page-link[href^="/categories"]::before {
+  content: "📁";
+}
+/* 태그 */
+.site-nav .page-link[href^="/tags"]::before {
+  content: "🏷";
+}
+
+/* =========================================================
+   5) Navigation Order Control (works only on flex items)
+   ========================================================= */
+.site-nav .trigger .page-link { order: 10; }
+.site-nav .trigger .page-link[href="/"] { order: 1; }
+.site-nav .trigger .page-link[href^="/about"] { order: 2; }
+.site-nav .trigger .page-link[href^="/archive"] { order: 3; }
+.site-nav .trigger .page-link[href^="/categories"] { order: 4; }
+.site-nav .trigger .page-link[href^="/tags"] { order: 5; }
+
+/* =========================================================
+   6) About page: hide top title ("소개") only on about
+   ========================================================= */
+/* minima는 보통 body에 page-about 같은 클래스가 붙음 */
+body.page-about .page-content article.post > header.post-header > h1.post-title {
+  display: none !important;
+}
+
+/* =========================================================
+   7) About page components (Profile card + sections + grid)
+   ========================================================= */
+
+/* About 전체 폭 통일(안녕하세요 카드 폭 기준) */
+.about-container {
+  max-width: var(--content-max);
+  margin: 0 auto;
+}
+
+/* Profile hero */
+.about-hero {
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  gap: 28px;
+  align-items: center;
+
+  padding: 36px;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  background: #f8fafc;
+}
+
+.about-hero__avatar img {
+  width: 120px;
+  height: 120px;
+  border-radius: 999px;
+  object-fit: cover;
+  background: #fff;
+}
+
+/* "안녕하세요! ..." 타이틀 */
+.about-hero-title {
+  font-size: 1.9rem;
+  font-weight: 800;
+  line-height: 1.3;
+  margin: 0 0 0.5rem 0;
+  color: var(--text);
+}
+.about-hero-title .highlight-name {
+  color: var(--accent-soft);
+  font-weight: 900;
+}
+
+/* hero 설명 */
+.about-hero__content p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 1.05rem;
+}
+
+/* 섹션 제목: 개발 여정 / 기술 스택 등 */
+.about-section-title {
+  margin-top: 34px;
+  font-size: 1.55rem;
+  font-weight: 800;
+  color: #0f172a;
+}
+
+/* 섹션 본문 */
+.about-paragraph {
+  color: #334155;
+  line-height: 1.8;
+}
+
+/* 카드 그리드: Frontend/Backend/Robotics/Tools */
+.about-grid {
+  margin-top: 16px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+
+.about-card {
+  padding: 22px;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  background: #fff;
+}
+
+/* 카드 제목: Frontend, Backend... */
+.about-card h3 {
+  margin: 0 0 12px 0;
+  color: var(--accent-soft);
+  font-size: 1.3rem;
+  font-weight: 800; /* 🔥 더 굵게 */
+  letter-spacing: -0.01em;
+}
+
+.about-card ul {
+  margin: 0;
+  padding-left: 18px;
+  line-height: 1.8;
+}
+
+/* =========================================================
+   8) About - Education Section (Sejong / Bootcamp 등)
+   ========================================================= */
+.about-edu {
+  margin-top: 14px;
+}
+
+.about-edu-item {
+  display: grid;
+  grid-template-columns: 84px 1fr;
+  gap: 18px;
+  align-items: start;
+  padding: 10px 0;
+}
+
+.about-edu-logo img {
+  width: 64px;
+  height: 64px;
+  border-radius: 999px;
+  object-fit: cover;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+}
+
+.about-edu-title {
+  font-size: 1.45rem;
+  font-weight: 900;
+  margin: 0 0 4px 0;
+  color: var(--text);
+}
+
+.about-edu-subtitle {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #334155;
+  margin: 0 0 10px 0;
+}
+
+.about-edu-period {
+  font-size: 0.98rem;
+  color: #64748b;
+  margin: 0 0 10px 0;
+}
+
+.about-edu-bullets {
+  margin: 0;
+  padding-left: 18px;
+  color: #475569;
+  line-height: 1.8;
+}
+
+.about-edu-divider {
+  height: 1px;
+  background: #e5e7eb;
+  margin: 18px 0;
+}
+
+/* =========================================================
+   9) Responsive
+   ========================================================= */
+@media (max-width: 720px) {
+  .site-header .wrapper {
+    grid-template-columns: auto 1fr; /* 모바일에선 단순화 (필요 시 조정) */
+  }
+
+  .about-hero {
+    grid-template-columns: 1fr;
+    text-align: left;
+  }
+
+  .about-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .about-edu-item {
+    grid-template-columns: 64px 1fr;
+  }
+
+  .about-edu-logo img {
+    width: 52px;
+    height: 52px;
+  }
+}
+
+/* =========================
+   Image hover zoom (logo + avatar)
+   ========================= */
+
+/* 공통: 부드럽게 확대 + 튐 방지 */
+.site-logo,
+.about-hero__avatar img {
+  transition: transform 0.22s ease, box-shadow 0.22s ease;
+  transform: translateZ(0); /* 살짝 더 부드럽게 */
+  will-change: transform;
+}
+
+/* hover 시 살짝 확대 */
+.site-logo:hover,
+.about-hero__avatar img:hover {
+  transform: scale(1.2);
+}
+
+/* (선택) 마우스 올리면 커서도 */
+.site-logo,
+.about-hero__avatar img {
+  cursor: pointer;
+}
+
+/* (선택) 확대될 때 이미지가 카드 밖으로 삐져나오면 부모에 overflow hidden */
+.about-hero__avatar {
+  overflow: hidden;
+  border-radius: 999px; /* 부모가 원형이면 더 깔끔 */
+}
+
+/* =========================
+   About page: hide auto title
+   ========================= */
+
+.page-content article.post > header.post-header {
+  display: none !important;
+}
+
+/* =========================
+   About - Learning + Contact
+   ========================= */
+
+.learn-grid {
+  margin-top: 14px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+}
+
+/* 3개짜리 그리드에서 4번째 카드가 다음 줄 왼쪽에 오도록 */
+.learn-card:nth-child(4) {
+  grid-column: 1 / 2;
+}
+
+.learn-card {
+  padding: 22px;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  background: #f8fafc;
+  text-align: center;
+}
+
+.learn-card h3 {
+  margin: 0 0 10px 0;
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #5b7cfa;
+}
+
+.learn-card p {
+  margin: 0;
+  color: #334155;
+  line-height: 1.55;
+}
+
+/* 연락하기 리스트 */
+.contact-list {
+  margin-top: 12px;
+  display: grid;
+  gap: 14px;
+}
+
+.contact-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  padding: 16px 18px;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  background: #f8fafc;
+
+  text-decoration: none;
+  color: #0f172a;
+
+  transition: transform 0.15s ease, background-color 0.15s ease;
+}
+
+.contact-item:hover {
+  background: rgba(0,0,0,0.04);
+  transform: translateY(-1px);
+}
+
+.contact-item .icon {
+  font-size: 1.2rem;
+  width: 26px;
+  text-align: center;
+}
+
+.contact-item .text {
+  font-weight: 600;
+}
+
+/* 모바일 대응 */
+@media (max-width: 900px) {
+  .learn-grid {
+    grid-template-columns: 1fr;
+  }
+  .learn-card:nth-child(4) {
+    grid-column: auto;
+  }
+}
+
+/* =========================
+   Tech Stack (Blue Accent)
+   ========================= */
+
+/* 기술 스택 전체 카드 */
+.about-card {
+  background: linear-gradient(
+    180deg,
+    #f8faff 0%,
+    #ffffff 100%
+  );
+  border: 1px solid #dbeafe; /* 연한 파랑 테두리 */
+  transition: 
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    background-color 0.2s ease;
+}
+
+/* hover 효과 */
+.about-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 22px rgba(59, 130, 246, 0.08);
+}
+
+/* 카드 제목 (Frontend / Backend / Robotics / Tools) */
+.about-card h3 {
+  color: #3b82f6; /* Tailwind blue-500 느낌 */
+}
+
+/* 리스트 강조 (굵은 키워드) */
+.about-card strong {
+  color: #1e40af; /* 조금 더 진한 블루 */
+}
+
+/* =========================
+   About - Blog Info Section
+   ========================= */
+
+.about-info-grid {
+  margin-top: 14px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+/* 카드 */
+.about-info-card {
+  padding: 18px 20px;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  background: #f8fafc;
+  color: #0f172a;
+  line-height: 1.5;
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.04);
+  transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+}
+
+.about-info-card strong {
+  font-weight: 800;
+  margin-right: 6px;
+}
+
+/* hover 살짝 띄우기 */
+.about-info-card:hover {
+  transform: translateY(-2px);
+  border-color: #bfdbfe;
+  box-shadow: 0 12px 26px rgba(59, 130, 246, 0.10);
+}
+
+/* 깃허브 링크 문장 */
+.about-info-link a {
+  color: #3b82f6;
+  text-decoration: none;
+  font-weight: 700;
+}
+
+.about-info-link a:hover {
+  color: #1d4ed8;
+  text-decoration: none;
+}
+
+/* 인용구 스타일 (왼쪽 세로 바) */
+.about-quote {
+  margin: 26px 0 0;
+  padding: 18px 18px 18px 22px;
+  border-left: 4px solid #4f6ef7;
+  background: #f8fafc;
+  border-radius: 10px;
+  color: #334155;
+  font-style: italic;
+}
+
+.about-quote__author {
+  display: block;
+  margin-top: 10px;
+  color: #64748b;
+  font-style: italic;
+}
+
+/* 반응형 (모바일) */
+@media (max-width: 900px) {
+  .about-info-grid {
+    grid-template-columns: 1fr;
+  }
+}
+.footer-panels {
+  margin-top: 30px;
+  padding-top: 28px;
+  border-top: 1px solid #e5e7eb;
+
+  display: grid;
+  grid-template-columns: 1.2fr 1fr 1.2fr 0.8fr;
+  gap: 26px;
+}
+
+.footer-panel h3 {
+  margin: 0 0 12px 0;
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #0f172a;
+}
+
+.footer-panel p {
+  margin: 0;
+  color: #475569;
+  line-height: 1.7;
+}
+
+.footer-panel ul {
+  margin: 0;
+  padding-left: 0;
+  list-style: none;
+}
+
+.footer-panel li {
+  margin: 8px 0;
+}
+
+.footer-panel a {
+  color: #334155;
+  text-decoration: none;
+}
+
+.footer-panel a:hover {
+  color: #3b82f6;
+  text-decoration: none;
+}
+
+@media (max-width: 900px) {
+  .footer-panels {
+    grid-template-columns: 1fr;
+  }
+}
+/* =========================
+   Home (Hero + 2-column layout)
+   ========================= */
+
+.home-hero {
+  padding: 46px 0 28px 0;
+  text-align: center;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.home-hero__title {
+  margin: 0;
+  font-size: 2.2rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.home-hero__subtitle {
+  margin: 10px 0 0 0;
+  font-size: 1.05rem;
+  color: #475569;
+}
+
+.home-hero__desc {
+  margin: 14px 0 0 0;
+  font-size: 1.0rem;
+  color: #64748b;
+  font-style: italic;
+}
+
+.home-layout {
+  margin-top: 26px;
+  display: grid;
+  grid-template-columns: 1fr 360px; /* 좌:본문 / 우:사이드 */
+  gap: 28px;
+  align-items: start;
+}
+
+.home-section-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.home-section-title {
+  margin: 0;
+  font-size: 1.45rem;
+  font-weight: 800;
+}
+
+.home-section-link {
+  color: #3b82f6;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.home-section-link:hover {
+  text-decoration: none;
+  color: #2563eb;
+}
+
+.home-post-item {
+  padding: 8px 0 0 0;
+}
+
+.home-post-title {
+  margin: 0 0 8px 0;
+  font-size: 1.25rem;
+  font-weight: 800;
+}
+
+.home-post-title a {
+  text-decoration: none;
+  color: #0f172a;
+}
+
+.home-post-title a:hover {
+  color: #3b82f6;
+  text-decoration: none;
+}
+
+.home-post-meta {
+  font-size: 0.92rem;
+  color: #64748b;
+  margin-bottom: 10px;
+}
+
+.home-post-meta a {
+  color: #64748b;
+  text-decoration: none;
+}
+
+.home-post-excerpt {
+  margin: 0 0 10px 0;
+  color: #334155;
+  line-height: 1.7;
+}
+
+.home-post-tags {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+
+.home-tag {
+  color: #3b82f6;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.92rem;
+}
+
+.home-tag:hover {
+  text-decoration: none;
+  color: #2563eb;
+}
+
+.home-post-divider {
+  height: 1px;
+  background: #e5e7eb;
+  margin: 18px 0;
+}
+
+/* Sidebar cards */
+
+.side-card {
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  background: #ffffff;
+  padding: 18px 18px;
+  margin-bottom: 16px;
+}
+
+.side-card__head h3 {
+  margin: 0;
+  font-size: 1.15rem;
+  font-weight: 800;
+}
+
+.side-card__line {
+  height: 2px;
+  width: 100%;
+  background: rgba(59, 130, 246, 0.65);
+  margin-top: 10px;
+  border-radius: 999px;
+}
+
+.side-about {
+  margin-top: 14px;
+  text-align: center;
+}
+
+.side-about__avatar {
+  width: 86px;
+  height: 86px;
+  border-radius: 999px;
+  object-fit: cover;
+  border: 2px solid rgba(59, 130, 246, 0.55);
+  padding: 6px;
+  background: #fff;
+}
+
+.side-about__text {
+  margin: 14px 0 0 0;
+  color: #475569;
+  line-height: 1.7;
+}
+
+.side-about__link {
+  display: inline-block;
+  margin-top: 12px;
+  color: #3b82f6;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.side-about__link:hover {
+  color: #2563eb;
+  text-decoration: none;
+}
+
+.side-list {
+  margin: 14px 0 0 0;
+  padding-left: 0;
+  list-style: none;
+}
+
+.side-list li {
+  margin: 10px 0;
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.side-list a {
+  color: #334155;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.side-list a:hover {
+  color: #3b82f6;
+  text-decoration: none;
+}
+
+.side-count {
+  color: #94a3b8;
+  font-weight: 700;
+}
+
+/* Responsive */
+@media (max-width: 980px) {
+  .home-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+.side-more {
+  display: inline-block;
+  margin-top: 12px;
+  color: #3b82f6;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.side-more:hover {
+  color: #2563eb;
+  text-decoration: none;
+}
+
+/* ✅ 카드 안에서 가운데 정렬 */
+.side-card .side-more {
+  display: block;
+  text-align: center;
+}
+.post-layout {
+  display: grid;
+  grid-template-columns: 1fr 260px;
+  gap: 40px;
+  align-items: start;
+}
+
+.post-toc {
+  position: sticky;
+  top: 100px;
+  max-height: calc(100vh - 140px);
+  overflow-y: auto;
+
+  padding: 16px 18px;
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+  background: #f8fafc;
+  font-size: 0.9rem;
+}
+
+.toc-title {
+  font-weight: 700;
+  margin-bottom: 10px;
+  color: #475569;
+  border-bottom: 2px solid #3b82f6;
+  padding-bottom: 6px;
+}
+
+#toc a {
+  display: block;
+  color: #334155;
+  text-decoration: none;
+  margin: 6px 0;
+  line-height: 1.4;
+}
+
+#toc a:hover {
+  color: #3b82f6;
+}
+
+.toc-h3 {
+  padding-left: 14px;
+  font-size: 0.85rem;
+  color: #64748b;
+}
+
+@media (max-width: 1024px) {
+  .post-layout {
+    grid-template-columns: 1fr;
+  }
+  .post-toc {
+    display: none;
+  }
+}
+/* =========================
+   Narrow Post (with TOC)
+   ========================= */
+
+.post-layout--narrow {
+  max-width: 1040px;        /* 👈 핵심 */
+  margin: 0 auto;
+}
+
+/* 본문 자체도 살짝 줄이기 */
+.post-layout--narrow .post-content {
+  max-width: 720px;
+}
+
+/* TOC 폭 고정 */
+.post-layout--narrow .post-toc {
+  width: 260px;
+}
+/* =========================
+   Archive Timeline
+   ========================= */
+
+.archive-timeline {
+  max-width: 880px;   /* 소개 페이지랑 폭 맞추고 싶으면 동일값 */
+  margin: 0 auto;
+  padding: 0 12px;
+}
+
+.archive-year {
+  margin: 18px 0 46px;
+}
+
+.archive-year__head {
+  margin-bottom: 14px;
+}
+
+.archive-year__title {
+  margin: 0;
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: #5b7cfa; /* 너가 쓰는 블루 톤 */
+  letter-spacing: -0.02em;
+}
+
+.archive-year__count {
+  margin-top: 6px;
+  color: #64748b;
+  font-size: 0.98rem;
+}
+
+.archive-list {
+  position: relative;
+  padding-left: 74px; /* 세로줄/점 공간 */
+}
+
+.archive-list::before {
+  content: "";
+  position: absolute;
+  left: 30px;        /* 세로줄 위치 */
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: #dbeafe; /* 은은한 파랑 줄 */
+  border-radius: 2px;
+}
+
+.archive-item {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 6px;
+  padding: 18px 0 22px;
+}
+
+.archive-item__dot {
+  position: absolute;
+  left: -48px;      /* 줄 가운데로 맞춤 */
+  top: 26px;
+  width: 10px;
+  height: 10px;
+  background: #5b7cfa;
+  border-radius: 999px;
+  box-shadow: 0 0 0 6px rgba(91, 124, 250, 0.15);
+
+}
+
+.archive-item__body {
+  background: transparent;
+}
+
+.archive-item__date {
+  color: #64748b;
+  font-weight: 600;
+  font-size: 0.98rem;
+  margin-bottom: 6px;
+}
+
+.archive-item__title {
+  display: inline-block;
+  font-size: 1.45rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: #0f172a;
+  text-decoration: none;
+  line-height: 1.25;
+}
+
+.archive-item__title:hover {
+  color: #5b7cfa;
+  text-decoration: none;
+}
+
+.archive-item__excerpt {
+  margin-top: 10px;
+  color: #475569;
+  line-height: 1.75;
+  max-width: 62ch;
+}
+
+.archive-item__meta {
+  margin-top: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.archive-pill {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(91, 124, 250, 0.10);
+  color: #3756d6;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.archive-pill--tag {
+  background: rgba(2, 132, 199, 0.10);
+  color: #0369a1;
+}
+
+/* YouTube responsive embed */
+.youtube-wrapper {
+  position: relative;
+  width: 100%;
+  padding-bottom: 56.25%; /* 16:9 */
+  height: 0;
+  margin: 2rem 0;        /* 위아래 여백 */
+}
+
+.youtube-wrapper iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 12px;   /* 디자인 통일 (선택) */
+}
