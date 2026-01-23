@@ -3,8 +3,8 @@ title: "로봇 기반 정밀 농도 제어 시스템: 유체 동역학 모델링
 excerpt: "산업용 로봇 암과 로드셀, MQTT 통신을 활용한 ROS2 기반 고정밀 액체 주입 및 농도 제어 시스템"
 date: 2025-08-06
 layout: post
-categories: [Robotics, Precision Control, ROS2, Smart Manufacturing]
-tags: [Doosan M0609, Load Cell, MQTT, TurtleBot, ROS2, Precision Automation, SLAM, Navigation, Liquid Injection, Concentration Control]
+categories: [Doosan M0609, Load Cell, MQTT, ROS2]
+tags: [Doosan M0609, Load Cell, MQTT, Liquid Injection]
 toc: true
 toc_sticky: true
 ---
@@ -25,7 +25,7 @@ toc_sticky: true
 
 ## 초록 (Abstract)
 
-본 연구는 협동 로봇인 **두산 M0609**와 정밀 센서 시스템을 활용하여, 용기의 기울기 조작을 통해 유체 흐름을 제어하는 **자동 농도 조절 시스템**의 개발을 다룹니다. 기존 수동 제어 방식이 가진 재현성의 한계를 극복하기 위해, 유체 역학적 이론 모델링과 실시간 피드백 제어를 결합한 지능형 시스템을 구현했습니다.
+본 프로젝트는 협동 로봇인 **두산 M0609**와 정밀 센서 시스템을 활용하여, 용기의 기울기 조작을 통해 유체 흐름을 제어하는 **자동 농도 조절 시스템**의 개발을 다룹니다. 기존 수동 제어 방식이 가진 재현성의 한계를 극복하기 위해, 유체 역학적 이론 모델링과 실시간 피드백 제어를 결합한 지능형 시스템을 구현했습니다.
 
 
 

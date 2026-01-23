@@ -203,27 +203,36 @@ body {
   font-size: 0.95em;
 }
 
-/* 홈 */
-.site-nav .page-link[href="/"]::before {
-  content: "🏠";
-}
-/* 소개 */
-.site-nav .page-link[href^="/about"]::before {
-  content: "👤";
-}
-/* 아카이브 */
-.site-nav .page-link[href^="/archive"]::before {
-  content: "🗂";
-}
-/* 카테고리 */
-.site-nav .page-link[href^="/categories"]::before {
-  content: "📁";
-}
-/* 태그 */
-.site-nav .page-link[href^="/tags"]::before {
-  content: "🏷";
+.site-nav .page-link::before {
+  font-family: "Font Awesome 6 Free";
+  font-weight: 900;
+  margin-right: 6px;
 }
 
+/* 홈 */
+.site-nav .page-link[href="/"]::before {
+  content: "\f015"; /* home */
+}
+
+/* 소개 */
+.site-nav .page-link[href^="/about"]::before {
+  content: "\f007"; /* user */
+}
+
+/* 아카이브 */
+.site-nav .page-link[href^="/archive"]::before {
+  content: "\f187"; /* archive */
+}
+
+/* 카테고리 */
+.site-nav .page-link[href^="/categories"]::before {
+  content: "\f07b"; /* folder */
+}
+
+/* 태그 */
+.site-nav .page-link[href^="/tags"]::before {
+  content: "\f02b"; /* tag */
+}
 /* =========================================================
    5) Navigation Order Control (works only on flex items)
    ========================================================= */

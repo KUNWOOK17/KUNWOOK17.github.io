@@ -4,8 +4,8 @@ excerpt: "산업 현장의 위험 방지를 위해 YOLO 기반 탐지, 칼만 �
 date: 2025-07-23
 layout: post
 narrow: true
-categories: [Robotics, ROS2]
-tags: [TurtleBot, ROS2, SLAM, Navigation]
+categories: [ROS2]
+tags: [TurtleBot4, ROS2, SLAM, Navigation]
 toc: true
 toc_sticky: true
 ---
@@ -27,7 +27,7 @@ toc_sticky: true
 
 ## 초록 (Abstract)
 
-본 논문은 **K-디지털 트레이닝 프로그램**의 일환으로 **Team RobotFactory**가 개발한 **산업 안전 로봇 시스템**을 종합적으로 제시한다.  
+본 프로젝트는 **K-디지털 트레이닝 프로그램**의 일환으로 **Team RobotFactory**가 개발한 **산업 안전 로봇 시스템**을 종합적으로 제시한다.  
 제안하는 시스템은 **실시간 객체 탐지**, **자율 주행 내비게이션**, 그리고 **분산 통신 프로토콜**을 통합하여 산업 환경에서 발생하는 핵심적인 안전 문제를 해결하는 것을 목표로 한다.
 
 엄밀한 수학적 분석과 실험적 검증을 통해, 본 시스템은 **고급 칼만 필터링 기법**을 적용함으로써 **93%의 탐지 정확도**와 **24.7%의 노이즈 감소 효과**를 달성하였다.
