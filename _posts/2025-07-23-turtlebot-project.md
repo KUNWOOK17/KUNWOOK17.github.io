@@ -25,7 +25,7 @@ toc_sticky: true
   </iframe>
 </div>
 
-## 초록 (Abstract)
+## Abstract
 
 본 프로젝트는 **K-디지털 트레이닝 프로그램**의 일환으로 **Team RobotFactory**가 개발한 **산업 안전 로봇 시스템**을 종합적으로 제시한다.  
 제안하는 시스템은 **실시간 객체 탐지**, **자율 주행 내비게이션**, 그리고 **분산 통신 프로토콜**을 통합하여 산업 환경에서 발생하는 핵심적인 안전 문제를 해결하는 것을 목표로 한다.
@@ -37,7 +37,7 @@ toc_sticky: true
 
 ---
 
-## 1. 서론 및 문제 정의 (Introduction & Problem Formulation)
+## 1. 서론 및 문제 정의
 
 ### 1.1 산업 안전 환경 분석
 
@@ -52,7 +52,8 @@ toc_sticky: true
 
 ![Industrial Accident Statistics](/assets/images/turtlebot_project/accident_statistics.png)  
 *그림 2: 2021–2024년 산업재해 추이 — 지속적인 안전 문제를 보여줌*
-### 1.2 수학적 위험도 프레임워크 (Mathematical Risk Framework)
+
+### 1.2 수학적 위험도 프레임워크
 
 시간 $$t$$에서의 **순간 위험 수준** $$R(t)$$는 다음과 같이 정의한다:
 
@@ -76,7 +77,7 @@ $$
 여기서 $$C_j$$는 각 시스템 구성 요소의 **배치 및 운영 비용**을 의미하며,  
 $$B$$는 전체 **예산 제약 조건**을 나타낸다.
 
-### 1.3 근본 원인 분석 (Root Cause Analysis)
+### 1.3 근본 원인 분석
 
 통계 분석 결과, 산업 재해의 **78.2%가 작업자 행동 요인**에서 발생하는 것으로 나타났으며, 이는 **자동화된 모니터링 시스템의 필요성**을 강하게 시사한다.
 
@@ -92,9 +93,9 @@ $$B$$는 전체 **예산 제약 조건**을 나타낸다.
 
 ---
 
-## 2. 시스템 아키텍처 및 설계 (System Architecture & Design)
+## 2. 시스템 아키텍처 및 설계
 
-### 2.1 기술 스택 개요 (Technical Stack Overview)
+### 2.1 기술 스택 개요
 
 | 구성 요소 | 구현 기술 | 선택 근거 |
 |----------|----------|-----------|
@@ -108,7 +109,7 @@ $$B$$는 전체 **예산 제약 조건**을 나타낸다.
 ![기술 스택](/assets/images/turtlebot_project/tech_stack.png)  
 *그림 4: 통합 인터페이스를 포함한 전체 기술 스택 구성*
 
-### 2.2 분산 시스템 아키텍처 (Distributed System Architecture)
+### 2.2 분산 시스템 아키텍처
 
 본 시스템은 **허브-앤-스포크(hub-and-spoke) 구조**를 기반으로 하며,  
 **통신 장애에 대응 가능한 내결함성(fault-tolerant) 분산 아키텍처**를 채택하였다.
@@ -475,7 +476,7 @@ $$\text{균형 지수 (Balance Index)} = 1 - \frac{\sigma_{workload}}{\mu_{workl
 
 ---
 
-## 9. 문제점 및 해결 방안 (Challenges & Solutions)
+## 9. 문제점 및 해결 방안
 
 ### 9.1 좌표계 캘리브레이션 과제
 
@@ -560,7 +561,7 @@ $$J(b) = w_1 \sum_{i} I_{collision}^{(i)} + w_2 \sum_{j} T_{stuck}^{(j)} + w_3 \
 
 ## 11. 향후 연구 및 발전 방향
 
-### 11.1 강화된 센서 융합 (Enhanced Sensor Fusion)
+### 11.1 강화된 센서 융합
 
 **계획된 멀티 센서 통합:**
 $$\hat{\mathbf{x}}_{fused} = \sum_{i=1}^{n} w_i \hat{\mathbf{x}}_i$$
@@ -595,7 +596,7 @@ $$\sigma_{fused}^2 = \left(\sum_{i=1}^{n} \sigma_i^{-2}\right)^{-1} \leq \min_i 
 
 ---
 
-## 12. 결론 (Conclusion)
+## 12. 결론
 
 본 연구는 산업 현장의 핵심적인 안전 과제를 해결하기 위해 여러 첨단 기술을 성공적으로 통합한 포괄적인 산업 안전 로봇 시스템을 제시했습니다. 엄격한 수학적 분석과 실험적 검증을 통해 다음과 같은 사항을 입증했습니다.
 
